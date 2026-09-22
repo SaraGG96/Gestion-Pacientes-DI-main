@@ -1,0 +1,9 @@
+com\clase\Pacientes.class
+com\clase\modelo\Paciente.class
+com\clase\persistencia\PacienteDAOMySQL.class
+module-info.class
+com\clase\persistencia\PacienteDAO.class
+com\clase\Provincia.class
+com\clase\persistencia\ConexionMySQL.class
+com\clase\App.class
+com\clase\Municipio.class
