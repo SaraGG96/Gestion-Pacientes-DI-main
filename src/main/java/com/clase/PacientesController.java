@@ -33,6 +33,8 @@ public class PacientesController implements Initializable {
     private ComboBox<String> cmbpac, locpac;
     @FXML 
     private Button btnguardarpac, btnmodifpac, btndelpac;
+    @FXML
+    private Button botonreset;
     @FXML 
     private TableView<Paciente> tablaPacientes;
     @FXML
@@ -225,6 +227,22 @@ public class PacientesController implements Initializable {
     
     private boolean validarTelefono(String telefono) {
         return telefono != null && telefono.matches("^[6789]\\d{8}$");
+    }
+
+    @FXML
+    private void resetCampos() {
+        dnipac.clear();
+        apelpac.clear();
+        nompac.clear();
+        tlfopac.clear();
+        emailpac.clear();
+        dirpac.clear();
+        nacpac.setValue(null);
+        cmbpac.getSelectionModel().clearSelection();
+        locpac.getSelectionModel().clearSelection();
+
+        dnipac.setStyle("");
+        tlfopac.setStyle("");
     }
 
     @FXML
