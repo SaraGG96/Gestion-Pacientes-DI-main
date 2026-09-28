@@ -2,6 +2,7 @@ package com.clase.modelo;
 import java.time.LocalDate;
 
 public class Paciente {
+
     private String dnipac;
     private String apelpac;
     private String nompac;
@@ -15,6 +16,7 @@ public class Paciente {
     public Paciente(String dnipac, String apelpac, String nompac,
             String movilpac, String emailpac, LocalDate nacpac,
             String dirpac, String propac, String munipac) {
+
         this.dnipac = dnipac;
         this.apelpac = apelpac;
         this.nompac = nompac;
@@ -25,6 +27,18 @@ public class Paciente {
         this.propac = propac;
         this.munipac = munipac;
     }
+
+    public Paciente(String dnipac, String apelpac, String nompac,
+            String movilpac, String propac, String munipac) {
+
+        this.dnipac = dnipac;
+        this.apelpac = apelpac;
+        this.nompac = nompac;
+        this.movilpac = movilpac;
+        this.propac = propac;
+        this.munipac = munipac;
+    }
+
 
     public String getDni() {
         return dnipac;

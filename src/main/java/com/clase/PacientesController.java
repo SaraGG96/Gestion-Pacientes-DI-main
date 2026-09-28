@@ -3,7 +3,6 @@ package com.clase;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.io.IOException;
@@ -14,10 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import com.clase.modelo.Paciente;
 import com.clase.persistencia.PacienteDAOMySQL;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -25,7 +24,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
-public class Pacientes implements Initializable {
+public class PacientesController implements Initializable {
 
     @FXML
     private TextField dnipac, apelpac, nompac, tlfpac, emailpac, dirpac, tlfopac;
@@ -35,6 +34,20 @@ public class Pacientes implements Initializable {
     private ComboBox<String> cmbpac, locpac;
     @FXML 
     private Button btnguardarpac, btnmodifpac, btndelpac;
+    @FXML 
+    private TableView<Paciente> tablaPacientes;
+    @FXML
+    private TableColumn<Paciente, String> coldnipac;
+    @FXML
+    private TableColumn<Paciente, String> colnompac;
+    @FXML
+    private TableColumn<Paciente, String> colapelpac;
+    @FXML
+    private TableColumn<Paciente, String> colmovilpac;
+    @FXML
+    private TableColumn<Paciente, String> colpropac;
+    @FXML
+    private TableColumn<Paciente, String> colmunipac;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -67,6 +80,7 @@ public class Pacientes implements Initializable {
                 }
             });
         }
+        cargarPacientes();
     }
 
     private void cargarProvincias() {
@@ -229,7 +243,7 @@ public class Pacientes implements Initializable {
         String direccion = dirpac.getText();
         String provincia = cmbpac.getValue();
         String municipio = locpac.getValue(); 
-        // Creamos el objeto Paciente 
+
         Paciente paciente = new Paciente( 
          dni,
          apellidos, 
@@ -243,4 +257,25 @@ public class Pacientes implements Initializable {
         PacienteDAOMySQL dao = new PacienteDAOMySQL();
         dao.guardarPaciente(paciente); 
         }
+
+
+        @FXML 
+        private void cargarPacientes() {
+            PacienteDAOMySQL dao = new PacienteDAOMySQL();
+            List<Paciente> pacientes = dao.cargarPacientes();
+            tablaPacientes.getItems().setAll(pacientes);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
