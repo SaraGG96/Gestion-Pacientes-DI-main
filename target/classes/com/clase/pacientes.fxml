@@ -17,9 +17,9 @@
 
 <VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" prefHeight="800.0" prefWidth="1200.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clase.PacientesController">
    <children>
-      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="22.0" prefWidth="1024.0" text="Xestión Pacientes" textFill="#f879ce">
+      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="22.0" prefWidth="1024.0" text="Xestión Pacientes" textAlignment="CENTER" textFill="#ab839e">
          <font>
-            <Font name="Arial Narrow Bold" size="19.0" />
+            <Font name="Arial Narrow Bold" size="24.0" />
          </font>
          <VBox.margin>
             <Insets top="20.0" />

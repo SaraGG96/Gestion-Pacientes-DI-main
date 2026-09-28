@@ -248,7 +248,6 @@ public class PacientesController implements Initializable {
         nacpac.setValue(null);
         cmbpac.getSelectionModel().clearSelection();
         locpac.getSelectionModel().clearSelection();
-
         dnipac.setStyle("");
         tlfopac.setStyle("");
     }
