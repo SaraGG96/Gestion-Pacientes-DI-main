@@ -11,12 +11,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clase.PacientesController">
+<VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" prefHeight="800.0" prefWidth="1200.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clase.PacientesController">
    <children>
       <Label alignment="CENTER" contentDisplay="TOP" prefHeight="22.0" prefWidth="1024.0" text="Xestión Pacientes" textFill="#f879ce">
          <font>
@@ -179,22 +178,22 @@
          </children>
       </VBox>
       <Separator prefWidth="200.0" />
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <VBox alignment="CENTER" maxWidth="1108.0" prefHeight="200.0" prefWidth="1108.0">
          <children>
-            <TableView fx:id="tablaPacientes" layoutX="66.0" layoutY="7.0" prefHeight="402.0" prefWidth="1100.0">
-              <columns>
-                <TableColumn fx:id="coldnipac" prefWidth="120.0" style="-fx-alignment: CENTER;" text="DNI" />
-                <TableColumn fx:id="colapelpac" prefWidth="200.0" text="APELLIDOS" />
+         <TableView fx:id="tablaPacientes" maxWidth="1108.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="0.0">
+               <columns>
+                  <TableColumn fx:id="coldnipac" prefWidth="120.0" style="-fx-alignment: CENTER;" text="DNI" />
+                  <TableColumn fx:id="colapelpac" prefWidth="200.0" text="APELLIDOS" />
                   <TableColumn fx:id="colnompac" prefWidth="200.0" text="NOMBRE" />
-                  <TableColumn fx:id="colmovilpac" prefWidth="100.0" style="-fx-alignment: CENTER;" text="MOVIL" />
-                  <TableColumn fx:id="colpropac" prefWidth="75.0" text="PROVINCIA" />
-                  <TableColumn fx:id="colmunipac" prefWidth="240.0" text="MUNICIPIO" />
-              </columns>
+                  <TableColumn fx:id="colmovilpac" prefWidth="114.0" style="-fx-alignment: CENTER;" text="MOVIL" />
+                  <TableColumn fx:id="colpropac" prefWidth="117.0" text="PROVINCIA" />
+                  <TableColumn fx:id="colmunipac" prefWidth="356.0" text="MUNICIPIO" />
+               </columns>
                <opaqueInsets>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </opaqueInsets>
             </TableView>
          </children>
-      </AnchorPane>
+      </VBox>
    </children>
 </VBox>
