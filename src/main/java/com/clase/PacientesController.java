@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import com.clase.modelo.Paciente;
 import com.clase.persistencia.PacienteDAOMySQL;
 import javafx.fxml.FXML;
@@ -52,6 +53,13 @@ public class PacientesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        coldnipac.setCellValueFactory(new PropertyValueFactory<>("dni"));
+        colapelpac.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
+        colnompac.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colmovilpac.setCellValueFactory(new PropertyValueFactory<>("movil"));
+        colpropac.setCellValueFactory(new PropertyValueFactory<>("provincia"));
+        colmunipac.setCellValueFactory(new PropertyValueFactory<>("municipio"));
+
         cargarProvincias();
         cmbpac.valueProperty().addListener((observable, oldValue, newValue) -> cargarMunicipios(newValue));
 
@@ -273,6 +281,7 @@ public class PacientesController implements Initializable {
 
         PacienteDAOMySQL dao = new PacienteDAOMySQL();
         dao.guardarPaciente(paciente); 
+        cargarPacientes();
         }
 
 
