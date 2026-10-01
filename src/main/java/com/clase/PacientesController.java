@@ -1,4 +1,5 @@
 package com.clase;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -30,15 +31,15 @@ public class PacientesController implements Initializable {
     private TextField dnipac, apelpac, nompac, tlfpac, emailpac, dirpac, tlfopac;
     @FXML
     private DatePicker nacpac;
-    @FXML 
+    @FXML
     private ComboBox<String> cmbpac, locpac;
-    @FXML 
-    private Button btnguardarpac, btnmodifpac, btndelpac;
+    @FXML
+    private Button btnguardarpac, btndelpac;
     @FXML
     private Button btnreset;
-    @FXML 
-    private Button btnbuscarpaciente;
-    @FXML 
+    @FXML
+    private Button btnbuscarpacdni;
+    @FXML
     private TableView<Paciente> tablaPacientes;
     @FXML
     private TableColumn<Paciente, String> coldnipac;
@@ -68,7 +69,7 @@ public class PacientesController implements Initializable {
         cmbpac.valueProperty().addListener((observable, oldValue, newValue) -> cargarMunicipios(newValue));
 
         dnipac.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { 
+            if (!newValue) {
                 comprobarDni();
             }
         });
@@ -96,13 +97,13 @@ public class PacientesController implements Initializable {
         cargarPacientes();
 
         tablaPacientes.getSelectionModel()
-        .selectedItemProperty()
-        .addListener((observable, anterior, nuevo) -> {
+                .selectedItemProperty()
+                .addListener((observable, anterior, nuevo) -> {
 
-            if (nuevo != null) {
-                cargarPaciente();
-            }
-        });
+                    if (nuevo != null) {
+                        cargarPaciente();
+                    }
+                });
 
     }
 
@@ -132,7 +133,7 @@ public class PacientesController implements Initializable {
         }
 
         try (InputStream entradaProvincias = getClass().getResourceAsStream("/com/clase/data/provincias.json");
-             InputStream entradaMunicipios = getClass().getResourceAsStream("/com/clase/data/municipio.json")) {
+                InputStream entradaMunicipios = getClass().getResourceAsStream("/com/clase/data/municipio.json")) {
             if (entradaProvincias == null || entradaMunicipios == null) {
                 throw new IOException("No se encontraron los archivos de datos");
             }
@@ -141,7 +142,7 @@ public class PacientesController implements Initializable {
             JsonObject datosProvincias = JsonParser.parseReader(
                     new InputStreamReader(entradaProvincias, StandardCharsets.UTF_8)).getAsJsonObject();
             Provincia provincia = Arrays.stream(gson.fromJson(
-                            datosProvincias.getAsJsonArray("provincias"), Provincia[].class))
+                    datosProvincias.getAsJsonArray("provincias"), Provincia[].class))
                     .filter(elemento -> elemento.getNm().equals(nombreProvincia))
                     .findFirst()
                     .orElse(null);
@@ -152,9 +153,10 @@ public class PacientesController implements Initializable {
 
             JsonObject datosMunicipios = JsonParser.parseReader(
                     new InputStreamReader(entradaMunicipios, StandardCharsets.UTF_8)).getAsJsonObject();
-                Municipio[] municipios = gson.fromJson(datosMunicipios.getAsJsonArray("municipios"), Municipio[].class);
+            Municipio[] municipios = gson.fromJson(datosMunicipios.getAsJsonArray("municipios"), Municipio[].class);
             List<String> nombresMunicipios = Arrays.stream(municipios)
-                    .filter(municipio -> municipio.getCodigoProvincia().equals(String.format("%02d", provincia.getId())))
+                    .filter(municipio -> municipio.getCodigoProvincia()
+                            .equals(String.format("%02d", provincia.getId())))
                     .map(Municipio::getNm)
                     .sorted()
                     .collect(Collectors.toList());
@@ -180,8 +182,8 @@ public class PacientesController implements Initializable {
         for (String palabra : palabras) {
             if (!palabra.isEmpty()) {
                 resultado.append(Character.toUpperCase(palabra.charAt(0)))
-                         .append(palabra.substring(1).toLowerCase())
-                         .append(" ");
+                        .append(palabra.substring(1).toLowerCase())
+                        .append(" ");
             }
         }
 
@@ -191,12 +193,12 @@ public class PacientesController implements Initializable {
     @FXML
     private void comprobarDni() {
         String dni = dnipac.getText() != null ? dnipac.getText().trim().toUpperCase() : "";
-        
+
         if (dni.isEmpty()) {
             dnipac.setStyle("");
             return;
         }
-        
+
         if (validarDniNie(dni)) {
             dnipac.setStyle("-fx-border-color: green; -fx-border-width: 1.5px;");
         } else {
@@ -229,7 +231,8 @@ public class PacientesController implements Initializable {
     @FXML
     private void comprobarTelefono() {
         TextField campoTlf = getCampoTelefono();
-        if (campoTlf == null) return;
+        if (campoTlf == null)
+            return;
 
         String tlf = campoTlf.getText() != null ? campoTlf.getText().trim() : "";
 
@@ -246,7 +249,6 @@ public class PacientesController implements Initializable {
         }
     }
 
-    
     private boolean validarTelefono(String telefono) {
         return telefono != null && telefono.matches("^[6789]\\d{8}$");
     }
@@ -268,9 +270,10 @@ public class PacientesController implements Initializable {
 
     @FXML
     private void guardarPaciente() {
-        if (nacpac.getValue() == null) { 
-            System.out.println("Debes introducir la fecha de nacimiento"); 
-            return; }
+        if (nacpac.getValue() == null) {
+            System.out.println("Debes introducir la fecha de nacimiento");
+            return;
+        }
 
         String dni = dnipac.getText();
         String apellidos = apelpac.getText();
@@ -280,79 +283,98 @@ public class PacientesController implements Initializable {
         String email = emailpac.getText();
         String direccion = dirpac.getText();
         String provincia = cmbpac.getValue();
-        String municipio = locpac.getValue(); 
+        String municipio = locpac.getValue();
 
-        Paciente paciente = new Paciente( 
-         dni,
-         apellidos, 
-         nombre, 
-         movil, 
-         email, fechaNacimiento, 
-         direccion,
-         provincia, 
-         municipio ); 
+        Paciente paciente = new Paciente(
+                dni,
+                apellidos,
+                nombre,
+                movil,
+                email, fechaNacimiento,
+                direccion,
+                provincia,
+                municipio);
 
-        PacienteDAOMySQL dao = new PacienteDAOMySQL();
-        dao.guardarPaciente(paciente); 
+        if (pacienteexiste) {
+            PacienteDAOMySQL dao = new PacienteDAOMySQL();
+            dao.modificarPaciente(paciente.getDni(), paciente);
+            pacienteexiste = false;
+        } else {
+            PacienteDAOMySQL dao = new PacienteDAOMySQL();
+            dao.guardarPaciente(paciente);
+        }
+
         cargarPacientes();
-        }
-
-
-        @FXML 
-        private void cargarPacientes() {
-            PacienteDAOMySQL dao = new PacienteDAOMySQL();
-            List<Paciente> pacientes = dao.cargarPacientes();
-            tablaPacientes.getItems().setAll(pacientes);
-        }
-
-
-
-        @FXML 
-        private void eliminarPaciente() {
-            Paciente seleccionado = tablaPacientes.getSelectionModel().getSelectedItem();
-            if (seleccionado == null) {return;}
-
-            PacienteDAOMySQL dao = new PacienteDAOMySQL();
-            dao.eliminarPaciente(seleccionado.getDni());
-
-            cargarPacientes();
-        }
-
-
-        @FXML
-        private void cargarPaciente() {
-            Paciente pacienteselect = tablaPacientes
-            .getSelectionModel()
-            .getSelectedItem();
-
-            if (pacienteselect == null) {
-                return;
-            } else {
-                pacienteexiste = true;
-            }
-
-            PacienteDAOMySQL dao = new PacienteDAOMySQL();
-            Paciente paciente = dao.buscarPaciente(pacienteselect.getDni());
-
-            if (paciente == null) {
-                return;
-            }
-
-            dnipac.setText(paciente.getDni());
-            apelpac.setText(paciente.getApellidos());
-            nompac.setText(paciente.getNombre());
-            tlfopac.setText(paciente.getMovil());
-            emailpac.setText(paciente.getEmail());
-            dirpac.setText(paciente.getDireccion());
-            nacpac.setValue(paciente.getNacimiento());
-            cmbpac.setValue(paciente.getProvincia());
-            locpac.setValue(paciente.getMunicipio());
-
-        }
-
-
-        
-
-
 
     }
+
+    @FXML
+    private void cargarPacientes() {
+        PacienteDAOMySQL dao = new PacienteDAOMySQL();
+        List<Paciente> pacientes = dao.cargarPacientes();
+        tablaPacientes.getItems().setAll(pacientes);
+    }
+
+    @FXML
+    private void eliminarPaciente() {
+        Paciente seleccionado = tablaPacientes.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            return;
+        }
+
+        PacienteDAOMySQL dao = new PacienteDAOMySQL();
+        dao.eliminarPaciente(seleccionado.getDni());
+
+        cargarPacientes();
+    }
+
+    @FXML
+    private void cargarPaciente() {
+        Paciente pacienteselect = tablaPacientes
+                .getSelectionModel()
+                .getSelectedItem();
+
+        if (pacienteselect == null) {
+            return;
+        } else {
+            pacienteexiste = true;
+        }
+
+        PacienteDAOMySQL dao = new PacienteDAOMySQL();
+        Paciente paciente = dao.buscarPaciente(pacienteselect.getDni());
+
+        if (paciente == null) {
+            return;
+        }
+
+        dnipac.setText(paciente.getDni());
+        apelpac.setText(paciente.getApellidos());
+        nompac.setText(paciente.getNombre());
+        tlfopac.setText(paciente.getMovil());
+        emailpac.setText(paciente.getEmail());
+        dirpac.setText(paciente.getDireccion());
+        nacpac.setValue(paciente.getNacimiento());
+        cmbpac.setValue(paciente.getProvincia());
+        locpac.setValue(paciente.getMunicipio());
+
+    }
+
+    @FXML
+    private void buscaPacDni() {
+
+        PacienteDAOMySQL dao = new PacienteDAOMySQL();
+        Paciente paciente = dao.buscaPacDni(dnipac.getText());
+
+        dnipac.setText(paciente.getDni());
+        apelpac.setText(paciente.getApellidos());
+        nompac.setText(paciente.getNombre());
+        tlfopac.setText(paciente.getMovil());
+        emailpac.setText(paciente.getEmail());
+        dirpac.setText(paciente.getDireccion());
+        nacpac.setValue(paciente.getNacimiento());
+        cmbpac.setValue(paciente.getProvincia());
+        locpac.setValue(paciente.getMunicipio());
+
+    }
+
+}

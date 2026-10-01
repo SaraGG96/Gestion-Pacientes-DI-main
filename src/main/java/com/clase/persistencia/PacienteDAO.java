@@ -7,6 +7,8 @@ void guardarPaciente(Paciente paciente);
 List<Paciente> cargarPacientes();
 void eliminarPaciente(String dni);
 Paciente buscarPaciente(String dni);
+void modificarPaciente(String dni, Paciente paciente);
+Paciente buscaPacDni(String dni);
 }
 
 
