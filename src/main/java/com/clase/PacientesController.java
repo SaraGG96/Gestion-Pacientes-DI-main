@@ -35,7 +35,9 @@ public class PacientesController implements Initializable {
     @FXML 
     private Button btnguardarpac, btnmodifpac, btndelpac;
     @FXML
-    private Button botonreset;
+    private Button btnreset;
+    @FXML 
+    private Button btnbuscarpaciente;
     @FXML 
     private TableView<Paciente> tablaPacientes;
     @FXML
@@ -50,6 +52,8 @@ public class PacientesController implements Initializable {
     private TableColumn<Paciente, String> colpropac;
     @FXML
     private TableColumn<Paciente, String> colmunipac;
+
+    boolean pacienteexiste = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -293,10 +297,48 @@ public class PacientesController implements Initializable {
 
 
 
+        @FXML 
+        private void eliminarPaciente() {
+            Paciente seleccionado = tablaPacientes.getSelectionModel().getSelectedItem();
+            if (seleccionado != null) {return;}
+
+            PacienteDAOMySQL dao = new PacienteDAOMySQL();
+            dao.eliminarPaciente(seleccionado.getDni());
+
+            cargarPacientes();
+        }
 
 
+        @FXML
+        private void cargarPaciente() {
+            Paciente pacienteselect = tablaPacientes
+            .getSelectionModel()
+            .getSelectedItem();
 
+            if (pacienteselect == null) {
+                return;
+            } else {
+                pacienteexiste = true;
+            }
 
+            PacienteDAOMySQL dao = new PacienteDAOMySQL();
+            Paciente paciente = dao.buscarPaciente(pacienteselect.getDni());
+
+            if (paciente == null) {
+                return;
+            }
+
+            dnipac.setText(paciente.getDni());
+            apelpac.setText(paciente.getApellidos());
+            nompac.setText(paciente.getNombre());
+            tlfopac.setText(paciente.getMovil());
+            emailpac.setText(paciente.getEmail());
+            dirpac.setText(paciente.getDireccion());
+            nacpac.setValue(paciente.getNacimiento());
+            cmbpac.setValue(paciente.getProvincia());
+            locpac.setValue(paciente.getMunicipio());
+
+        }
 
 
 

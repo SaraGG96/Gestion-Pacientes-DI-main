@@ -39,6 +39,18 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
+                  <Button fx:id="btnbuscarpaciente" mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../lupa/64673.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Label text="Apellidos:">
                      <HBox.margin>
                         <Insets left="20.0" />
@@ -59,7 +71,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="botonreset" mnemonicParsing="false" onAction="#resetCampos" prefHeight="25.0" prefWidth="6.0">
+                  <Button fx:id="btnreset" mnemonicParsing="false" onAction="#resetCampos" prefHeight="25.0" prefWidth="6.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -70,6 +82,9 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <opaqueInsets>
+                        <Insets top="30.0" />
+                     </opaqueInsets>
                   </Button>
                </children>
                <VBox.margin>
@@ -165,7 +180,7 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="btndelpac" mnemonicParsing="false" text="Eliminar">
+                  <Button fx:id="btndelpac" mnemonicParsing="false" onAction="#eliminarPaciente" text="Eliminar">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
