@@ -72,7 +72,7 @@ public class PacienteDAOMySQL implements PacienteDAO {
 
     @Override
     public void eliminarPaciente(String dni) {
-        String sql = "DELETE FROM pacientes WHERRE dnipac = ?";
+        String sql = "DELETE FROM pacientes WHERE dnipac = ?";
 
         try (Connection conexion = ConexionMySQL.getConexion();
                 PreparedStatement ps = conexion.prepareStatement(sql)) {

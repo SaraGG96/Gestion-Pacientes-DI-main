@@ -310,7 +310,7 @@ public class PacientesController implements Initializable {
         @FXML 
         private void eliminarPaciente() {
             Paciente seleccionado = tablaPacientes.getSelectionModel().getSelectedItem();
-            if (seleccionado != null) {return;}
+            if (seleccionado == null) {return;}
 
             PacienteDAOMySQL dao = new PacienteDAOMySQL();
             dao.eliminarPaciente(seleccionado.getDni());
