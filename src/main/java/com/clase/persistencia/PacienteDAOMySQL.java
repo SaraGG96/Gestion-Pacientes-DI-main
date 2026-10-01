@@ -90,7 +90,7 @@ public class PacienteDAOMySQL implements PacienteDAO {
     public Paciente buscarPaciente(String dni) {
 
         String sql = "SELECT dnipac, apelpac, nompac, movilpac, "
-                + " emailpac, nacpac, dirpac, propac, munipac "
+            + " mailpac, nacimientopac, dirpac, propac, munipac "
                 + " FROM pacientes "
                 + " WHERE dnipac = ?";
 
@@ -108,8 +108,8 @@ public class PacienteDAOMySQL implements PacienteDAO {
                             rs.getString("apelpac"),
                             rs.getString("nompac"),
                             rs.getString("movilpac"),
-                            rs.getString("emailpac"),
-                            rs.getDate("nacpac").toLocalDate(),
+                            rs.getString("mailpac"),
+                            rs.getDate("nacimientopac").toLocalDate(),
                             rs.getString("dirpac"),
                             rs.getString("propac"),
                             rs.getString("munipac"));

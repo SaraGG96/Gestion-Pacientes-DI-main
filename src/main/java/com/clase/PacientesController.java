@@ -94,6 +94,16 @@ public class PacientesController implements Initializable {
             });
         }
         cargarPacientes();
+
+        tablaPacientes.getSelectionModel()
+        .selectedItemProperty()
+        .addListener((observable, anterior, nuevo) -> {
+
+            if (nuevo != null) {
+                cargarPaciente();
+            }
+        });
+
     }
 
     private void cargarProvincias() {
@@ -341,7 +351,7 @@ public class PacientesController implements Initializable {
         }
 
 
-
+        
 
 
 
