@@ -365,6 +365,12 @@ public class PacientesController implements Initializable {
         PacienteDAOMySQL dao = new PacienteDAOMySQL();
         Paciente paciente = dao.buscaPacDni(dnipac.getText());
 
+        if (paciente == null) {
+            return;
+        } else {
+            pacienteexiste = true;
+        }
+
         dnipac.setText(paciente.getDni());
         apelpac.setText(paciente.getApellidos());
         nompac.setText(paciente.getNombre());
