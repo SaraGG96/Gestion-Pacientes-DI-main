@@ -1,4 +1,5 @@
 com\clase\PacientesController.class
+com\clase\AcercadeController.class
 com\clase\modelo\Paciente.class
 com\clase\persistencia\PacienteDAOMySQL.class
 module-info.class
