@@ -311,7 +311,7 @@ public class PacientesController implements Initializable {
     @FXML
     private void cargarPacientes() {
         PacienteDAOMySQL dao = new PacienteDAOMySQL();
-        List<Paciente> pacientes = dao.cargarPacientes();
+        List<Paciente> pacientes = dao.cargarDoctores();
         tablaPacientes.getItems().setAll(pacientes);
     }
 

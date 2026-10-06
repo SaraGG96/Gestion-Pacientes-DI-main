@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" prefHeight="800.0" prefWidth="1200.0" spacing="20.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clase.PacientesController">
+<VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" prefHeight="800.0" prefWidth="1200.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clase.PacientesController">
    <children>
       <Label alignment="CENTER" contentDisplay="TOP" prefHeight="22.0" prefWidth="1024.0" text="Xestión Pacientes" textAlignment="CENTER" textFill="#ab839e">
          <font>
@@ -43,7 +43,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../lupa/64673.png" />
+                              <Image url="@../../img/LUPA.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -71,14 +71,14 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="btnreset" mnemonicParsing="false" onAction="#resetCampos" prefHeight="25.0" prefWidth="6.0">
+                  <Button fx:id="btnreset" mnemonicParsing="false" onAction="#resetCampos" prefHeight="29.0" prefWidth="27.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
                      </HBox.margin>
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../img/100487.png" />
+                              <Image url="@../../img/RECARGAR.png" />
                            </image>
                         </ImageView>
                      </graphic>

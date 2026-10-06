@@ -20,7 +20,7 @@
             </Label>
             <ImageView fitHeight="106.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/icono/sanidad.png" />
+                  <Image url="@../../img/SANIDAD.png" />
                </image>
             </ImageView>
             <Label text="Versión 0.1.1">

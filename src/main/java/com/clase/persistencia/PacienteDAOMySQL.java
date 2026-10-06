@@ -39,7 +39,7 @@ public class PacienteDAOMySQL implements PacienteDAO {
     }
 
     @Override
-    public List<Paciente> cargarPacientes() {
+    public List<Paciente> cargarDoctores() {
 
         List<Paciente> pacientes = new ArrayList<>();
 

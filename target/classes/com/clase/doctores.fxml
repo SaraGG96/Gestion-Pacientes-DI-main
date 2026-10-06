@@ -3,8 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" prefHeight="800.0" prefWidth="1200.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clase.PacientesController">
+<VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" prefHeight="800.0" prefWidth="1200.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clase.DoctoresController">
    <children>
-      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="22.0" prefWidth="1024.0" text="Xestión Pacientes" textAlignment="CENTER" textFill="#ab839e">
+      <Label alignment="CENTER" contentDisplay="TOP" prefHeight="22.0" prefWidth="1024.0" text="Xestión Doctores" textAlignment="CENTER" textFill="#ab839e">
          <font>
             <Font name="Arial Narrow Bold" size="24.0" />
          </font>
@@ -29,17 +29,17 @@
          <children>
             <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1280.0">
                <children>
-                  <Label text="DNI:">
+                  <Label text="ID:">
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="dnipac">
+                  <TextField fx:id="iddoc" editable="false">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="btnbuscarpac" mnemonicParsing="false" onAction="#buscaPacDni">
+                  <Button fx:id="btnbuscardoc" mnemonicParsing="false" onAction="#buscaPacDni">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -56,7 +56,7 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="apelpac" prefHeight="25.0" prefWidth="186.0">
+                  <TextField fx:id="apeldoc" prefHeight="25.0" prefWidth="186.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -66,7 +66,7 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="nompac" prefHeight="25.0" prefWidth="257.0">
+                  <TextField fx:id="nomedoc" prefHeight="25.0" prefWidth="257.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -96,22 +96,12 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1280.0">
                <children>
-                  <Label text="Fecha Nacimiento:">
-                     <HBox.margin>
-                        <Insets left="30.0" />
-                     </HBox.margin>
-                  </Label>
-                  <DatePicker fx:id="nacpac" prefHeight="25.0" prefWidth="191.0">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </DatePicker>
                   <Label text="Teléfono:">
                      <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="tlfopac" prefHeight="25.0" prefWidth="168.0">
+                  <TextField fx:id="tlfodoc" prefHeight="25.0" prefWidth="168.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -121,44 +111,32 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="emailpac" prefHeight="25.0" prefWidth="203.0">
+                  <TextField fx:id="emaildoc" prefHeight="25.0" prefWidth="203.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
-               </children>
-               <padding>
-                  <Insets bottom="15.0" top="15.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0">
-               <children>
-                  <Label text="Dirección:">
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="dirpac" prefHeight="25.0" prefWidth="221.0">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <Label text="Provincia:">
+                  <Label text="¿Colegiado?">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ComboBox fx:id="cmbpac" prefHeight="25.0" prefWidth="203.0">
+                  <RadioButton fx:id="colegiadodoc" mnemonicParsing="false" text="Si">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
-                  </ComboBox>
-                  <Label text="Localidad:">
+                  </RadioButton>
+                  <RadioButton fx:id="nocolegiadodoc" mnemonicParsing="false" text="No">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </RadioButton>
+                  <Label text="Especialidad:">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ComboBox fx:id="locpac" prefHeight="25.0" prefWidth="171.0">
+                  <ComboBox fx:id="locpac" onAction="#cargarEspecialidades" prefHeight="25.0" prefWidth="171.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -167,15 +145,18 @@
                <padding>
                   <Insets bottom="15.0" top="15.0" />
                </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
             <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1024.0">
                <children>
-                  <Button fx:id="btnguardarpac" mnemonicParsing="false" onAction="#guardarPaciente" text="Guardar">
+                  <Button fx:id="btnguardardoc" mnemonicParsing="false" onAction="#guardarPaciente" text="Guardar">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="btndelpac" mnemonicParsing="false" onAction="#eliminarPaciente" text="Eliminar">
+                  <Button fx:id="btndeldoc" mnemonicParsing="false" onAction="#eliminarDoctor" text="Eliminar">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -190,14 +171,13 @@
       <Separator prefWidth="200.0" />
       <VBox alignment="CENTER" maxWidth="1108.0" prefHeight="200.0" prefWidth="1108.0">
          <children>
-         <TableView fx:id="tablaPacientes" maxWidth="1108.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="0.0">
+         <TableView fx:id="tablaDoctores" maxWidth="1108.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="0.0">
                <columns>
-                  <TableColumn fx:id="coldnipac" prefWidth="120.0" style="-fx-alignment: CENTER;" text="DNI" />
-                  <TableColumn fx:id="colapelpac" prefWidth="200.0" text="APELLIDOS" />
-                  <TableColumn fx:id="colnompac" prefWidth="200.0" text="NOMBRE" />
-                  <TableColumn fx:id="colmovilpac" prefWidth="114.0" style="-fx-alignment: CENTER;" text="MOVIL" />
-                  <TableColumn fx:id="colpropac" prefWidth="117.0" text="PROVINCIA" />
-                  <TableColumn fx:id="colmunipac" prefWidth="356.0" text="MUNICIPIO" />
+                  <TableColumn fx:id="coliddoc" prefWidth="120.0" style="-fx-alignment: CENTER;" text="DNI" />
+                  <TableColumn fx:id="colapeldoc" prefWidth="255.0" text="APELLIDOS" />
+                  <TableColumn fx:id="colnomedoc" prefWidth="230.0" text="NOMBRE" />
+                  <TableColumn fx:id="colmovildoc" prefWidth="252.0" style="-fx-alignment: CENTER;" text="MOVIL" />
+                  <TableColumn fx:id="colespedoc" prefWidth="250.0" text="ESPECIALIDAD" />
                </columns>
                <opaqueInsets>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
