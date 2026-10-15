@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.scene.control.TableView;
@@ -20,7 +21,9 @@ import com.clase.modelo.Paciente;
 import com.clase.persistencia.PacienteDAOMySQL;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -298,10 +301,20 @@ public class PacientesController implements Initializable {
         if (pacienteexiste) {
             PacienteDAOMySQL dao = new PacienteDAOMySQL();
             dao.modificarPaciente(paciente.getDni(), paciente);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Cliente modificado correctamente");
+            alert.showAndWait();
             pacienteexiste = false;
         } else {
             PacienteDAOMySQL dao = new PacienteDAOMySQL();
             dao.guardarPaciente(paciente);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Nuevo cliente añadido");
+            alert.showAndWait();
         }
 
         cargarPacientes();
@@ -322,8 +335,21 @@ public class PacientesController implements Initializable {
             return;
         }
 
-        PacienteDAOMySQL dao = new PacienteDAOMySQL();
-        dao.eliminarPaciente(seleccionado.getDni());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Aviso");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Estás seguro de que deseas eliminar al paciente con DNI: " + seleccionado.getDni() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            PacienteDAOMySQL dao = new PacienteDAOMySQL();
+            dao.eliminarPaciente(seleccionado.getDni());
+        } else {
+            return;
+        }
+
+
+
+
 
         cargarPacientes();
     }
