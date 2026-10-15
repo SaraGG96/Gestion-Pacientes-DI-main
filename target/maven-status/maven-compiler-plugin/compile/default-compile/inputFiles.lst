@@ -1,5 +1,6 @@
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\modelo\Doctor.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\Municipio.java
+E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\persistencia\DoctorDAOMySQL.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\persistencia\PacienteDAOMySQL.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\persistencia\PacienteDAO.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\PacientesController.java
@@ -7,6 +8,7 @@ E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\persistencia\ConexionMyS
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\Provincia.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\App.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\module-info.java
+E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\persistencia\DoctorDAO.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\DoctoresController.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\VentanaController.java
 E:\DI\Gestion-Pacientes-DI-main\src\main\java\com\clase\AcercadeController.java

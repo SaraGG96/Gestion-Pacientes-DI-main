@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mysql:3306
--- Tiempo de generación: 21-09-2026 a las 07:49:24
+-- Tiempo de generación: 09-10-2026 a las 08:54:12
 -- Versión del servidor: 8.4.11
 -- Versión de PHP: 8.3.26
 
@@ -38,6 +38,13 @@ CREATE TABLE `pacientes` (
   `propac` varchar(64) NOT NULL,
   `munipac` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `pacientes`
+--
+
+INSERT INTO `pacientes` (`dnipac`, `apelpac`, `nompac`, `nacimientopac`, `movilpac`, `mailpac`, `dirpac`, `propac`, `munipac`) VALUES
+('12345678Z', 'Peresa', 'Ratoni', '2026-10-15', '772664553', 'ratoni@gmail.com', 'Un queso ', 'Albacete', 'Albatana');
 
 --
 -- Índices para tablas volcadas

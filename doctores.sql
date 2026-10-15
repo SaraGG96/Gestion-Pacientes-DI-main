@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mysql:3306
--- Tiempo de generación: 08-10-2026 a las 07:53:45
+-- Tiempo de generación: 09-10-2026 a las 08:54:05
 -- Versión del servidor: 8.4.11
 -- Versión de PHP: 8.3.26
 
@@ -33,9 +33,16 @@ CREATE TABLE `doctores` (
   `apeldoc` varchar(128) NOT NULL,
   `coledoc` tinyint(1) NOT NULL,
   `movildoc` varchar(16) NOT NULL,
-  `maildoc` varchar(128) NOT NULL,
+  `emaildoc` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `espedoc` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `doctores`
+--
+
+INSERT INTO `doctores` (`iddoc`, `nomedoc`, `apeldoc`, `coledoc`, `movildoc`, `emaildoc`, `espedoc`) VALUES
+(1, 'Doctorez', 'Doctorez', 1, '675766453', 'doctor@doctor.doc', 'Alergología');
 
 --
 -- Índices para tablas volcadas
@@ -55,7 +62,7 @@ ALTER TABLE `doctores`
 -- AUTO_INCREMENT de la tabla `doctores`
 --
 ALTER TABLE `doctores`
-  MODIFY `iddoc` int NOT NULL AUTO_INCREMENT;
+  MODIFY `iddoc` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

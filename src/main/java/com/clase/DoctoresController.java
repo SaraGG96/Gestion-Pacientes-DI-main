@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import com.clase.modelo.Paciente;
-import com.clase.persistencia.PacienteDAOMySQL;
+import com.clase.modelo.Doctor;
+import com.clase.persistencia.DoctorDAOMySQL;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,23 +22,23 @@ public class DoctoresController implements Initializable {
     @FXML
     private Button btnbuscardoc, btnguardardoc, btndeldoc, btnreset;
     @FXML
-    private TableView<Paciente> tablaDoctores;
+    private TableView<Doctor> tablaDoctores;
     @FXML
     private ComboBox<String> locpac;
     @FXML
     private RadioButton colegiadodoc, nocolegiadodoc;
     @FXML
-    private TableColumn<Paciente, String> coliddoc, colapeldoc, colnomedoc, colmovildoc, colespedoc;
+    private TableColumn<Doctor, String> coliddoc, colapeldoc, colnomedoc, colmovildoc, colespedoc;
 
-    boolean pacienteexiste = false;
+    boolean doctorexiste = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        coliddoc.setCellValueFactory(new PropertyValueFactory<>("dni"));
-        colapeldoc.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
-        colnomedoc.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colmovildoc.setCellValueFactory(new PropertyValueFactory<>("movil"));
-        colespedoc.setCellValueFactory(new PropertyValueFactory<>("provincia"));
+        coliddoc.setCellValueFactory(new PropertyValueFactory<>("iddoc"));
+        colapeldoc.setCellValueFactory(new PropertyValueFactory<>("apeldoc"));
+        colnomedoc.setCellValueFactory(new PropertyValueFactory<>("nomedoc"));
+        colmovildoc.setCellValueFactory(new PropertyValueFactory<>("tlfodoc"));
+        colespedoc.setCellValueFactory(new PropertyValueFactory<>("locpac"));
         cargarEspecialidades();
 
         nomedoc.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -65,7 +65,7 @@ public class DoctoresController implements Initializable {
                 .addListener((observable, anterior, nuevo) -> {
 
                     if (nuevo != null) {
-                        cargarPaciente();
+                        cargarDoctor();
                     }
                 });
 
@@ -123,58 +123,56 @@ public class DoctoresController implements Initializable {
         colegiadodoc.setSelected(false);
         nocolegiadodoc.setSelected(false);
         tlfodoc.setStyle("");
-        pacienteexiste = false;
+        doctorexiste = false;
         cargarDoctores();
     }
 
     @FXML
-    private void guardarPaciente() {
-        String dni = iddoc.getText();
+    private void guardarDoctor() {
+        String id = iddoc.getText();
         String apellidos = apeldoc.getText();
         String nombre = nomedoc.getText();
         String movil = tlfodoc.getText();
         String email = emaildoc.getText();
         String especialidad = locpac.getValue();
 
-        Paciente paciente = new Paciente(
-                dni,
+        Doctor doctor = new Doctor(
+                id,
                 apellidos,
                 nombre,
                 movil,
                 email,
-                especialidad
+                especialidad,
+                colegiadodoc.isSelected()
             );
 
-        if (pacienteexiste) {
-            PacienteDAOMySQL dao = new PacienteDAOMySQL();
-            dao.modificarPaciente(paciente.getDni(), paciente);
-            pacienteexiste = false;
+        DoctorDAOMySQL dao = new DoctorDAOMySQL();
+        if (doctorexiste) {
+            dao.modificarDoctor(doctor.getIddoc(), doctor);
         } else {
-            PacienteDAOMySQL dao = new PacienteDAOMySQL();
-            dao.guardarPaciente(paciente);
+            dao.guardarDoctor(doctor);
         }
 
-        pacienteexiste = false;
+        doctorexiste = false;
         cargarDoctores();
     }
 
     @FXML
     private void cargarDoctores() {
-        PacienteDAOMySQL dao = new PacienteDAOMySQL();
-        List<Paciente> doctores = dao.cargarDoctores();
+        DoctorDAOMySQL dao = new DoctorDAOMySQL();
+        List<Doctor> doctores = dao.cargarDoctores();
         tablaDoctores.getItems().setAll(doctores);
-        if (!pacienteexiste) {
+        if (!doctorexiste) {
             iddoc.setText(String.valueOf(siguienteId(doctores)));
         }
     }
 
-    private int siguienteId(List<Paciente> doctores) {
+    private int siguienteId(List<Doctor> doctores) {
         int mayorId = 0;
-        for (Paciente doctor : doctores) {
+        for (Doctor doctor : doctores) {
             try {
-                mayorId = Math.max(mayorId, Integer.parseInt(doctor.getDni()));
+                mayorId = Math.max(mayorId, Integer.parseInt(doctor.getIddoc()));
             } catch (NumberFormatException e) {
-                // Los registros antiguos con DNI no participan en la numeración.
             }
         }
         return mayorId + 1;
@@ -182,62 +180,66 @@ public class DoctoresController implements Initializable {
 
     @FXML
     private void eliminarDoctor() {
-        Paciente seleccionado = tablaDoctores.getSelectionModel().getSelectedItem();
+        Doctor seleccionado = tablaDoctores.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
             return;
         }
 
-        PacienteDAOMySQL dao = new PacienteDAOMySQL();
-        dao.eliminarPaciente(seleccionado.getDni());
+        DoctorDAOMySQL dao = new DoctorDAOMySQL();
+        dao.eliminarDoctor(seleccionado.getIddoc());
 
-        pacienteexiste = false;
+        doctorexiste = false;
         cargarDoctores();
     }
 
     @FXML
-    private void cargarPaciente() {
-        Paciente pacienteselect = tablaDoctores
+    private void cargarDoctor() {
+        Doctor doctoselect = tablaDoctores
                 .getSelectionModel()
                 .getSelectedItem();
 
-        if (pacienteselect == null) {
+        if (doctoselect == null) {
             return;
         } else {
-            pacienteexiste = true;
+            doctorexiste = true;
         }
 
-        PacienteDAOMySQL dao = new PacienteDAOMySQL();
-        Paciente paciente = dao.buscarPaciente(pacienteselect.getDni());
+        DoctorDAOMySQL dao = new DoctorDAOMySQL();
+        Doctor doctor = dao.buscarDoctor(doctoselect.getIddoc());
 
-        if (paciente == null) {
+        if (doctor == null) {
             return;
         }
 
-        iddoc.setText(paciente.getDni());
-        apeldoc.setText(paciente.getApellidos());
-        nomedoc.setText(paciente.getNombre());
-        tlfodoc.setText(paciente.getMovil());
-        emaildoc.setText(paciente.getEmail());
-        locpac.setValue(paciente.getProvincia());
+        iddoc.setText(doctor.getIddoc());
+        apeldoc.setText(doctor.getApeldoc());
+        nomedoc.setText(doctor.getNomedoc());
+        tlfodoc.setText(doctor.getTlfodoc());
+        emaildoc.setText(doctor.getEmaildoc());
+        locpac.setValue(doctor.getLocpac());
+        colegiadodoc.setSelected(doctor.isColegiado());
+        nocolegiadodoc.setSelected(!doctor.isColegiado());
     }
 
     @FXML
     private void buscaPacDni() {
-        PacienteDAOMySQL dao = new PacienteDAOMySQL();
-        Paciente paciente = dao.buscaPacDni(iddoc.getText());
+        DoctorDAOMySQL dao = new DoctorDAOMySQL();
+        Doctor doctor = dao.buscarDoctor(iddoc.getText());
 
-        if (paciente == null) {
+        if (doctor == null) {
             return;
         } else {
-            pacienteexiste = true;
+            doctorexiste = true;
         }
 
-        iddoc.setText(paciente.getDni());
-        apeldoc.setText(paciente.getApellidos());
-        nomedoc.setText(paciente.getNombre());
-        tlfodoc.setText(paciente.getMovil());
-        emaildoc.setText(paciente.getEmail());
-        locpac.setValue(paciente.getProvincia());
+        iddoc.setText(doctor.getIddoc());
+        apeldoc.setText(doctor.getApeldoc());
+        nomedoc.setText(doctor.getNomedoc());
+        tlfodoc.setText(doctor.getTlfodoc());
+        emaildoc.setText(doctor.getEmaildoc());
+        locpac.setValue(doctor.getLocpac());
+        colegiadodoc.setSelected(doctor.isColegiado());
+        nocolegiadodoc.setSelected(!doctor.isColegiado());
     }
 
     @FXML 

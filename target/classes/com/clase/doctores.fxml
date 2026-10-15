@@ -39,18 +39,6 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="btnbuscardoc" mnemonicParsing="false" onAction="#buscaPacDni">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../img/LUPA.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Button>
                   <Label text="Apellidos:">
                      <HBox.margin>
                         <Insets left="20.0" />
@@ -136,11 +124,23 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ComboBox fx:id="locpac" onAction="#cargarEspecialidades" prefHeight="25.0" prefWidth="171.0">
+                  <ComboBox fx:id="locpac" prefHeight="25.0" prefWidth="171.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ComboBox>
+                  <Button fx:id="btnbuscardoc" mnemonicParsing="false" onAction="#buscaPacDni">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../img/LUPA.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
                <padding>
                   <Insets bottom="15.0" top="15.0" />
@@ -151,7 +151,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="45.0" prefWidth="1024.0">
                <children>
-                  <Button fx:id="btnguardardoc" mnemonicParsing="false" onAction="#guardarPaciente" text="Guardar">
+                  <Button fx:id="btnguardardoc" mnemonicParsing="false" onAction="#guardarDoctor" text="Guardar">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
