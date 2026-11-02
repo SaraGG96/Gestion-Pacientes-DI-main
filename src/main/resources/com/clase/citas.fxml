@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" fillWidth="true" spacing="14.0" xmlns="http://javafx.com/javafx/26"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clase.CitasController">
+   <children>
+      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="52.0"
+             styleClass="section-title" text="Gestión Citas" textFill="WHITE" />
+      <VBox alignment="TOP_CENTER" maxWidth="1000.0" spacing="12.0">
+         <padding>
+            <Insets top="14.0" left="18.0" right="18.0" />
+         </padding>
+         <children>
+            <HBox alignment="CENTER" spacing="8.0">
+               <children>
+                  <Label text="ID Cita:" />
+                  <TextField fx:id="idCita" prefWidth="100.0" styleClass="lookup-field" />
+                  <Label text="ID Doctor:" />
+                  <TextField fx:id="idDoctor" prefWidth="100.0" styleClass="lookup-field" />
+                  <Label text="DNI Paciente:" />
+                  <TextField fx:id="dniPaciente" prefWidth="130.0" styleClass="lookup-field" />
+                  <Button onAction="#buscarCita" mnemonicParsing="false" text="Buscar" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="8.0">
+               <children>
+                  <Label text="Motivo Cita:" />
+                  <TextField fx:id="motivo" prefWidth="225.0" />
+                  <Label text="Fecha:" />
+                  <DatePicker fx:id="fecha" prefWidth="145.0" />
+                  <Label text="Hora:" />
+                  <ComboBox fx:id="hora" prefWidth="105.0" promptText="Hora" />
+                  <Label text="Estado Cita:" />
+                  <RadioButton fx:id="pendiente" mnemonicParsing="false" text="Pendiente" />
+                  <RadioButton fx:id="atendida" mnemonicParsing="false" text="Atendida" />
+                  <RadioButton fx:id="anulada" mnemonicParsing="false" text="Anulada" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="16.0">
+               <children>
+                  <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Diagnóstico:" />
+                        <TextArea fx:id="diagnostico" prefHeight="120.0" wrapText="true"
+                                  VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Tratamiento:" />
+                        <TextArea fx:id="tratamiento" prefHeight="120.0" wrapText="true"
+                                  VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="12.0">
+               <children>
+                  <Button onAction="#guardarCita" text="Guardar" />
+                  <Button onAction="#eliminarCita" text="Eliminar" />
+                  <Button onAction="#limpiarCampos" text="Limpiar" />
+               </children>
+               <padding>
+                  <Insets top="2.0" bottom="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>
