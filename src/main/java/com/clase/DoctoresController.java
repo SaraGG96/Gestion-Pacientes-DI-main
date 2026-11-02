@@ -1,7 +1,9 @@
 package com.clase;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
@@ -11,6 +13,8 @@ import com.clase.persistencia.DoctorDAOMySQL;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -149,8 +153,18 @@ public class DoctoresController implements Initializable {
         DoctorDAOMySQL dao = new DoctorDAOMySQL();
         if (doctorexiste) {
             dao.modificarDoctor(doctor.getIddoc(), doctor);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Doctor modificado correctamente");
+            alert.showAndWait();
         } else {
             dao.guardarDoctor(doctor);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Nuevo doctor añadido");
+            alert.showAndWait();
         }
 
         doctorexiste = false;
@@ -185,8 +199,17 @@ public class DoctoresController implements Initializable {
             return;
         }
 
-        DoctorDAOMySQL dao = new DoctorDAOMySQL();
-        dao.eliminarDoctor(seleccionado.getIddoc());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Aviso");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Estás seguro de que deseas eliminar al doctor con ID: " + seleccionado.getIddoc() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            DoctorDAOMySQL dao = new DoctorDAOMySQL();
+            dao.eliminarDoctor(seleccionado.getIddoc());
+        } else {
+            return;
+        }
 
         doctorexiste = false;
         cargarDoctores();
@@ -222,24 +245,23 @@ public class DoctoresController implements Initializable {
     }
 
     @FXML
-    private void buscaPacDni() {
-        DoctorDAOMySQL dao = new DoctorDAOMySQL();
-        Doctor doctor = dao.buscarDoctor(iddoc.getText());
-
-        if (doctor == null) {
+    private void buscarPorEspecialidad() {
+        String especialidad = locpac.getValue();
+        if (especialidad == null || especialidad.trim().isEmpty()) {
             return;
-        } else {
-            doctorexiste = true;
         }
 
-        iddoc.setText(doctor.getIddoc());
-        apeldoc.setText(doctor.getApeldoc());
-        nomedoc.setText(doctor.getNomedoc());
-        tlfodoc.setText(doctor.getTlfodoc());
-        emaildoc.setText(doctor.getEmaildoc());
-        locpac.setValue(doctor.getLocpac());
-        colegiadodoc.setSelected(doctor.isColegiado());
-        nocolegiadodoc.setSelected(!doctor.isColegiado());
+        DoctorDAOMySQL dao = new DoctorDAOMySQL();
+        List<Doctor> doctoresEncontrados = new ArrayList<>();
+
+        for (Doctor doctor : dao.cargarDoctores()) {
+            if (especialidad.equals(doctor.getLocpac())) {
+                doctoresEncontrados.add(doctor);
+            }
+        }
+
+        doctorexiste = false;
+        tablaDoctores.getItems().setAll(doctoresEncontrados);
     }
 
     @FXML 

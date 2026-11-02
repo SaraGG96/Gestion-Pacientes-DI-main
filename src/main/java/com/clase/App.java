@@ -16,6 +16,9 @@ public class App extends Application {
             getClass().getResource("/com/clase/ventana.fxml")
         );
         Scene scene = new Scene(loader.load(), 1280, 720);
+        scene.getStylesheets().add(
+            getClass().getResource("/com/clase/css/estilos.css").toExternalForm()
+        );
         stage.setTitle("Controles Basicos");
         stage.setScene(scene);
         stage.setMaximized(true);

@@ -129,7 +129,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <Button fx:id="btnbuscardoc" mnemonicParsing="false" onAction="#buscaPacDni">
+                  <Button fx:id="btnbuscardoc" mnemonicParsing="false" onAction="#buscarPorEspecialidad">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
