@@ -1,16 +1,17 @@
+
 package com.clase;
 
 import com.clase.modelo.Cita;
+import com.clase.modelo.Paciente;
 import com.clase.persistencia.CitaDAOMySQL;
 import java.net.URL;
 import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -18,106 +19,105 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
 public class CitasController implements Initializable {
-    @FXML private TextField idCita;
-    @FXML private TextField idDoctor;
-    @FXML private TextField dniPaciente;
-    @FXML private TextField motivo;
-    @FXML private DatePicker fecha;
-    @FXML private javafx.scene.control.ComboBox<String> hora;
-    @FXML private RadioButton pendiente;
-    @FXML private RadioButton atendida;
-    @FXML private RadioButton anulada;
-    @FXML private TextArea diagnostico;
-    @FXML private TextArea tratamiento;
 
-    private final CitaDAOMySQL citaDao = new CitaDAOMySQL();
+    @FXML
+    private TextField idCita;
+    @FXML
+    private TextField idDoctor;
+    @FXML
+    private TextField dniPaciente;
+    @FXML
+    private TextField motivo;
+    @FXML
+    private DatePicker fecha;
+    @FXML
+    private ComboBox<LocalTime> hora;
+    @FXML
+    private RadioButton pendiente;
+    @FXML
+    private RadioButton atendida;
+    @FXML
+    private RadioButton anulada;
+    @FXML
+    private TextArea diagnostico;
+    @FXML
+    private TextArea tratamiento;
+
+    private final CitaDAOMySQL dao = new CitaDAOMySQL();
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL url, ResourceBundle rb) {
+        hora.setItems(FXCollections.observableArrayList(
+                LocalTime.of(8, 0), LocalTime.of(9, 0), LocalTime.of(10, 0),
+                LocalTime.of(11, 0), LocalTime.of(12, 0), LocalTime.of(13, 0),
+                LocalTime.of(16, 0), LocalTime.of(17, 0), LocalTime.of(18, 0)));
+
         ToggleGroup estados = new ToggleGroup();
         pendiente.setToggleGroup(estados);
         atendida.setToggleGroup(estados);
         anulada.setToggleGroup(estados);
         pendiente.setSelected(true);
+    }
 
-        hora.setItems(FXCollections.observableArrayList(
-                "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
-                "11:00", "11:30", "12:00", "12:30", "13:00", "13:30",
-                "14:00", "14:30", "15:00", "15:30", "16:00", "16:30",
-                "17:00", "17:30", "18:00"));
+    public void cargarDatosPaciente(Paciente paciente) {
+        if (paciente != null) {
+            dniPaciente.setText(paciente.getDni());
+        }
     }
 
     @FXML
     private void buscarCita() {
-        String valor = idCita.getText().trim();
-        if (valor.isEmpty()) {
-            mostrarError("Indica el ID de la cita", "Escribe el identificador de la cita que quieres buscar.");
-            return;
-        }
-
         try {
-            int id = Integer.parseInt(valor);
-            Cita cita = citaDao.buscarCita(id);
+            Cita cita = dao.buscarCita(parseRequiredInt(idCita.getText(), "el ID de la cita"));
             if (cita == null) {
-                mostrarError("Cita no encontrada", "No existe ninguna cita con ese ID.");
+                mostrarAviso("No se encontró ninguna cita con ese ID.");
                 return;
             }
-            mostrarCita(cita);
-        } catch (NumberFormatException e) {
-            mostrarError("ID no válido", "El ID de la cita debe ser un número entero.");
-        } catch (IllegalStateException e) {
-            mostrarError("Error de base de datos", detalle(e));
+            idDoctor.setText(String.valueOf(cita.getCitaiddoc()));
+            dniPaciente.setText(cita.getCitadnipac());
+            fecha.setValue(cita.getFechacita());
+            hora.setValue(cita.getHoracita());
+            motivo.setText(cita.getMotivo());
+            diagnostico.setText(cita.getDiagnostico());
+            tratamiento.setText(cita.getTratamiento());
+            seleccionarEstado(cita.getEstadocita());
+        } catch (IllegalArgumentException ex) {
+            mostrarAviso(ex.getMessage());
+        } catch (IllegalStateException ex) {
+            mostrarError(ex.getMessage());
         }
     }
 
     @FXML
     private void guardarCita() {
         try {
-            String idTexto = idCita.getText().trim();
-            int id = idTexto.isEmpty() ? 0 : Integer.parseInt(idTexto);
-            Cita cita = crearCita(id);
-            if (id == 0) {
-                citaDao.guardarCita(cita);
+            Cita cita = leerCita();
+            if (idCita.getText().trim().isEmpty()) {
+                dao.guardarCita(cita);
+                mostrarAviso("Cita guardada correctamente.");
             } else {
-                citaDao.modificarCita(cita);
+                cita.setIdcita(parseRequiredInt(idCita.getText(), "el ID de la cita"));
+                dao.modificarCita(cita);
+                mostrarAviso("Cita modificada correctamente.");
             }
-            limpiarCampos();
-            mostrarInformacion("Cita guardada", "Los datos de la cita se han guardado correctamente.");
-        } catch (NumberFormatException e) {
-            mostrarError("ID no válido", "El ID de la cita debe ser un número entero.");
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            mostrarError("No se pudo guardar la cita", e instanceof IllegalStateException
-                    ? detalle((IllegalStateException) e) : e.getMessage());
+        } catch (IllegalArgumentException ex) {
+            mostrarAviso(ex.getMessage());
+        } catch (IllegalStateException ex) {
+            mostrarError(ex.getMessage());
         }
     }
 
     @FXML
     private void eliminarCita() {
-        String valor = idCita.getText().trim();
-        if (valor.isEmpty()) {
-            mostrarError("Indica el ID de la cita", "Busca o escribe el ID de la cita que quieres eliminar.");
-            return;
-        }
-
-        int id;
         try {
-            id = Integer.parseInt(valor);
-        } catch (NumberFormatException e) {
-            mostrarError("ID no válido", "El ID de la cita debe ser un número entero.");
-            return;
-        }
-
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Eliminar cita");
-        confirmacion.setHeaderText("¿Quieres eliminar la cita " + id + "?");
-        if (confirmacion.showAndWait().filter(respuesta -> respuesta == ButtonType.OK).isPresent()) {
-            try {
-                citaDao.eliminarCita(id);
-                limpiarCampos();
-                mostrarInformacion("Cita eliminada", "La cita se ha eliminado correctamente.");
-            } catch (IllegalStateException e) {
-                mostrarError("No se pudo eliminar la cita", detalle(e));
-            }
+            int id = parseRequiredInt(idCita.getText(), "el ID de la cita");
+            dao.eliminarCita(id);
+            mostrarAviso("Cita eliminada correctamente.");
+            limpiarCampos();
+        } catch (IllegalArgumentException ex) {
+            mostrarAviso(ex.getMessage());
+        } catch (IllegalStateException ex) {
+            mostrarError(ex.getMessage());
         }
     }
 
@@ -134,64 +134,60 @@ public class CitasController implements Initializable {
         pendiente.setSelected(true);
     }
 
-    private Cita crearCita(int id) {
-        if (idDoctor.getText().trim().isEmpty() || dniPaciente.getText().trim().isEmpty()
-                || fecha.getValue() == null || hora.getValue() == null) {
-            throw new IllegalArgumentException("Completa el ID del doctor, DNI del paciente, fecha y hora.");
+    private Cita leerCita() {
+        if (dniPaciente.getText().trim().isEmpty()) {
+            throw new IllegalArgumentException("Debes introducir el DNI del paciente.");
+        }
+        if (fecha.getValue() == null || hora.getValue() == null) {
+            throw new IllegalArgumentException("Debes introducir la fecha y la hora.");
         }
 
-        int doctor;
+        return new Cita(0, dniPaciente.getText().trim(),
+                parseRequiredInt(idDoctor.getText(), "el ID del doctor"),
+                fecha.getValue(), hora.getValue(), motivo.getText().trim(),
+                diagnostico.getText().trim(), tratamiento.getText().trim(),
+                estadoSeleccionado());
+    }
+
+    private int parseRequiredInt(String value, String fieldName) {
         try {
-            doctor = Integer.parseInt(idDoctor.getText().trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("El ID del doctor debe ser un número entero.");
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException("Debes introducir " + fieldName + " válido.");
         }
+    }
 
-        LocalTime horaCita;
-        try {
-            horaCita = LocalTime.parse(hora.getValue());
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Selecciona una hora válida.");
+    private String estadoSeleccionado() {
+        if (atendida.isSelected()) {
+            return "Atendida";
         }
-
-        String estado = pendiente.isSelected() ? "Pendiente"
-                : atendida.isSelected() ? "Atendida" : "Anulada";
-        return new Cita(id, dniPaciente.getText().trim(), doctor, fecha.getValue(), horaCita,
-                motivo.getText().trim(), diagnostico.getText().trim(), tratamiento.getText().trim(), estado);
+        if (anulada.isSelected()) {
+            return "Anulada";
+        }
+        return "Pendiente";
     }
 
-    private void mostrarCita(Cita cita) {
-        idCita.setText(Integer.toString(cita.getIdcita()));
-        idDoctor.setText(Integer.toString(cita.getIdDoctor()));
-        dniPaciente.setText(cita.getDniPaciente());
-        motivo.setText(cita.getMotivo());
-        fecha.setValue(cita.getFecha());
-        hora.setValue(cita.getHora().toString().substring(0, 5));
-        diagnostico.setText(cita.getDiagnostico());
-        tratamiento.setText(cita.getTratamiento());
-        pendiente.setSelected("Pendiente".equalsIgnoreCase(cita.getEstado()));
-        atendida.setSelected("Atendida".equalsIgnoreCase(cita.getEstado()));
-        anulada.setSelected("Anulada".equalsIgnoreCase(cita.getEstado()));
+    private void seleccionarEstado(String estado) {
+        if ("Atendida".equalsIgnoreCase(estado)) {
+            atendida.setSelected(true);
+        } else if ("Anulada".equalsIgnoreCase(estado)) {
+            anulada.setSelected(true);
+        } else {
+            pendiente.setSelected(true);
+        }
     }
 
-    private void mostrarError(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Gestión de citas");
-        alerta.setHeaderText(titulo);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
+    private void mostrarAviso(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
-    private void mostrarInformacion(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Gestión de citas");
-        alerta.setHeaderText(titulo);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
-    }
-
-    private String detalle(IllegalStateException e) {
-        Throwable causa = e.getCause() == null ? e : e.getCause();
-        return causa.getMessage() == null ? causa.toString() : causa.getMessage();
+    private void mostrarError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Error de base de datos");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

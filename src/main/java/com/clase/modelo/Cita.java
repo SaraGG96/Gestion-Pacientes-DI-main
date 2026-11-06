@@ -51,19 +51,11 @@ public class Cita {
         return citadnipac;
     }
 
-    public String getDniPaciente() {
-        return citadnipac;
-    }
-
     public void setCitadnipac(String citadnipac) {
         this.citadnipac = citadnipac;
     }
 
     public int getCitaiddoc() {
-        return citaiddoc;
-    }
-
-    public int getIdDoctor() {
         return citaiddoc;
     }
 
@@ -75,19 +67,11 @@ public class Cita {
         return fechacita;
     }
 
-    public LocalDate getFecha() {
-        return fechacita;
-    }
-
     public void setFechacita(LocalDate fechacita) {
         this.fechacita = fechacita;
     }
 
     public LocalTime getHoracita() {
-        return horacita;
-    }
-
-    public LocalTime getHora() {
         return horacita;
     }
 
@@ -123,13 +107,7 @@ public class Cita {
         return estadocita;
     }
 
-    public String getEstado() {
-        return estadocita;
-    }
-
     public void setEstadocita(String estadocita) {
         this.estadocita = estadocita;
     }
-
-
 }

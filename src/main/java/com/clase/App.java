@@ -1,4 +1,5 @@
 //Sara García Garrido
+// mvn javafx:run
 
 package com.clase;
 import javafx.application.Application;

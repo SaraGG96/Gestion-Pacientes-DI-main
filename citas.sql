@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mysql:3306
--- Tiempo de generación: 16-10-2026 a las 08:54:43
--- Versión del servidor: 8.4.11
--- Versión de PHP: 8.3.26
+-- Xerado en: 06 de Nov de 2026 ás 09:10
+-- Versión do servidor: 8.4.11
+-- Versión do PHP: 8.3.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,53 +24,53 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `citas`
+-- Estrutura da táboa `citas`
 --
 
 CREATE TABLE `citas` (
   `idcita` int NOT NULL,
-  `dnipac` varchar(9) NOT NULL,
-  `iddoc` int NOT NULL,
+  `citadnipac` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `citaiddoc` int NOT NULL,
   `fechacita` date NOT NULL,
   `horacita` time NOT NULL,
   `motivo` varchar(200) DEFAULT NULL,
   `diagnostico` text,
   `tratamiento` text,
-  `estado` varchar(20) DEFAULT 'Pendiente'
+  `estadocita` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `citas`
+-- Indexes for table `citas`
 --
 ALTER TABLE `citas`
   ADD PRIMARY KEY (`idcita`),
-  ADD KEY `dnipac` (`dnipac`),
-  ADD KEY `iddoc` (`iddoc`);
+  ADD KEY `dnipac` (`citadnipac`),
+  ADD KEY `iddoc` (`citaiddoc`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `citas`
+-- AUTO_INCREMENT for table `citas`
 --
 ALTER TABLE `citas`
   MODIFY `idcita` int NOT NULL AUTO_INCREMENT;
 
 --
--- Restricciones para tablas volcadas
+-- Restricións para os envorcados das táboas
 --
 
 --
--- Filtros para la tabla `citas`
+-- Restricións para a táboa `citas`
 --
 ALTER TABLE `citas`
-  ADD CONSTRAINT `citas_ibfk_1` FOREIGN KEY (`dnipac`) REFERENCES `pacientes` (`dnipac`),
-  ADD CONSTRAINT `citas_ibfk_2` FOREIGN KEY (`iddoc`) REFERENCES `doctores` (`iddoc`);
+  ADD CONSTRAINT `citas_ibfk_1` FOREIGN KEY (`citadnipac`) REFERENCES `pacientes` (`dnipac`),
+  ADD CONSTRAINT `citas_ibfk_2` FOREIGN KEY (`citaiddoc`) REFERENCES `doctores` (`iddoc`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
