@@ -5,6 +5,7 @@ import com.clase.modelo.Cita;
 import com.clase.modelo.Paciente;
 import com.clase.persistencia.CitaDAOMySQL;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -14,9 +15,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class CitasController implements Initializable {
 
@@ -42,8 +46,19 @@ public class CitasController implements Initializable {
     private TextArea diagnostico;
     @FXML
     private TextArea tratamiento;
+    @FXML
+    private TableView<Cita> tablaPacientes;
+    @FXML
+    private TableColumn<Cita, Integer> colidpac;
+    @FXML
+    private TableColumn<Cita, String> coldocpac, colespepac, colestadopac;
+    @FXML
+    private TableColumn<Cita, LocalDate> coldiapac;
+    @FXML
+    private TableColumn<Cita, LocalTime> colhorapac;
 
     private final CitaDAOMySQL dao = new CitaDAOMySQL();
+    private boolean citaEnEdicion;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,6 +72,21 @@ public class CitasController implements Initializable {
         atendida.setToggleGroup(estados);
         anulada.setToggleGroup(estados);
         pendiente.setSelected(true);
+
+        colidpac.setCellValueFactory(new PropertyValueFactory<>("idcita"));
+        coldocpac.setCellValueFactory(new PropertyValueFactory<>("doctor"));
+        colespepac.setCellValueFactory(new PropertyValueFactory<>("especialidad"));
+        coldiapac.setCellValueFactory(new PropertyValueFactory<>("fechacita"));
+        colhorapac.setCellValueFactory(new PropertyValueFactory<>("horacita"));
+        colestadopac.setCellValueFactory(new PropertyValueFactory<>("estadocita"));
+        cargarCitas();
+
+        tablaPacientes.getSelectionModel().selectedItemProperty()
+                .addListener((observable, anterior, nuevaCita) -> {
+                    if (nuevaCita != null) {
+                        mostrarCita(nuevaCita);
+                    }
+                });
     }
 
     public void cargarDatosPaciente(Paciente paciente) {
@@ -73,6 +103,7 @@ public class CitasController implements Initializable {
                 mostrarAviso("No se encontró ninguna cita con ese ID.");
                 return;
             }
+            citaEnEdicion = true;
             idDoctor.setText(String.valueOf(cita.getCitaiddoc()));
             dniPaciente.setText(cita.getCitadnipac());
             fecha.setValue(cita.getFechacita());
@@ -92,14 +123,16 @@ public class CitasController implements Initializable {
     private void guardarCita() {
         try {
             Cita cita = leerCita();
-            if (idCita.getText().trim().isEmpty()) {
+            if (!citaEnEdicion) {
                 dao.guardarCita(cita);
-                mostrarAviso("Cita guardada correctamente.");
+                mostrarAviso("Cita creada correctamente.");
             } else {
                 cita.setIdcita(parseRequiredInt(idCita.getText(), "el ID de la cita"));
                 dao.modificarCita(cita);
                 mostrarAviso("Cita modificada correctamente.");
             }
+            cargarCitas();
+            limpiarCampos();
         } catch (IllegalArgumentException ex) {
             mostrarAviso(ex.getMessage());
         } catch (IllegalStateException ex) {
@@ -114,6 +147,7 @@ public class CitasController implements Initializable {
             dao.eliminarCita(id);
             mostrarAviso("Cita eliminada correctamente.");
             limpiarCampos();
+            cargarCitas();
         } catch (IllegalArgumentException ex) {
             mostrarAviso(ex.getMessage());
         } catch (IllegalStateException ex) {
@@ -132,6 +166,10 @@ public class CitasController implements Initializable {
         diagnostico.clear();
         tratamiento.clear();
         pendiente.setSelected(true);
+        citaEnEdicion = false;
+        if (tablaPacientes != null) {
+            tablaPacientes.getSelectionModel().clearSelection();
+        }
     }
 
     private Cita leerCita() {
@@ -175,6 +213,24 @@ public class CitasController implements Initializable {
         } else {
             pendiente.setSelected(true);
         }
+    }
+
+    @FXML
+    private void cargarCitas() {
+        tablaPacientes.getItems().setAll(dao.cargarCitas());
+    }
+
+    private void mostrarCita(Cita cita) {
+        citaEnEdicion = true;
+        idCita.setText(String.valueOf(cita.getIdcita()));
+        idDoctor.setText(String.valueOf(cita.getCitaiddoc()));
+        dniPaciente.setText(cita.getCitadnipac());
+        fecha.setValue(cita.getFechacita());
+        hora.setValue(cita.getHoracita());
+        motivo.setText(cita.getMotivo());
+        diagnostico.setText(cita.getDiagnostico());
+        tratamiento.setText(cita.getTratamiento());
+        seleccionarEstado(cita.getEstadocita());
     }
 
     private void mostrarAviso(String mensaje) {

@@ -6,35 +6,46 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CitaDAOMySQL {
     public List<Cita> cargarCitas() {
-        String sql = "SELECT idcita, citadnipac, citaiddoc, fechacita, horacita, motivo, "
-                + "diagnostico, tratamiento, estadocita FROM citas ORDER BY fechacita, horacita";
+        String sql = "SELECT c.idcita, c.citadnipac, c.citaiddoc, c.fechacita, c.horacita, "
+                + "c.motivo, c.diagnostico, c.tratamiento, c.estadocita, "
+                + "CONCAT(d.nomedoc, ' ', d.apeldoc) AS doctor, d.espedoc AS especialidad "
+                + "FROM citas c LEFT JOIN doctores d ON c.citaiddoc = d.iddoc "
+                + "ORDER BY c.fechacita, c.horacita";
         List<Cita> citas = new ArrayList<>();
 
         try (Connection conexion = ConexionMySQL.getConexion();
              PreparedStatement ps = conexion.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                citas.add(new Cita(
-                        rs.getInt("idcita"),
-                        rs.getString("citadnipac"),
-                        rs.getInt("citaiddoc"),
-                        rs.getDate("fechacita").toLocalDate(),
-                        rs.getTime("horacita").toLocalTime(),
-                        rs.getString("motivo"),
-                        rs.getString("diagnostico"),
-                        rs.getString("tratamiento"),
-                        rs.getString("estadocita")));
+                citas.add(crearCita(rs));
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("No se pudieron cargar las citas", e);
+            throw new IllegalStateException("No se pudieron cargar las citas: " + e.getMessage(), e);
         }
 
         return citas;
+    }
+
+    private Cita crearCita(ResultSet rs) throws SQLException {
+        Cita cita = new Cita(
+                rs.getInt("idcita"),
+                rs.getString("citadnipac"),
+                rs.getInt("citaiddoc"),
+                rs.getDate("fechacita").toLocalDate(),
+                leerHora(rs.getString("horacita")),
+                rs.getString("motivo"),
+                rs.getString("diagnostico"),
+                rs.getString("tratamiento"),
+                rs.getString("estadocita"));
+        cita.setDoctor(rs.getString("doctor"));
+        cita.setEspecialidad(rs.getString("especialidad"));
+        return cita;
     }
 
     public Cita buscarCita(int idCita) {
@@ -51,7 +62,7 @@ public class CitaDAOMySQL {
                             rs.getString("citadnipac"),
                             rs.getInt("citaiddoc"),
                             rs.getDate("fechacita").toLocalDate(),
-                            rs.getTime("horacita").toLocalTime(),
+                            leerHora(rs.getString("horacita")),
                             rs.getString("motivo"),
                             rs.getString("diagnostico"),
                             rs.getString("tratamiento"),
@@ -65,6 +76,10 @@ public class CitaDAOMySQL {
         return null;
     }
 
+    private LocalTime leerHora(String hora) {
+        return LocalTime.parse(hora.trim());
+    }
+
     public void guardarCita(Cita cita) {
         String sql = "INSERT INTO citas "
                 + "(citadnipac, citaiddoc, fechacita, horacita, motivo, diagnostico, tratamiento, estadocita) "
@@ -75,7 +90,7 @@ public class CitaDAOMySQL {
             asignarDatos(ps, cita);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException("No se pudo guardar la cita", e);
+            throw new IllegalStateException("No se pudo guardar la cita: " + e.getMessage(), e);
         }
     }
 
@@ -109,7 +124,7 @@ public class CitaDAOMySQL {
         ps.setString(1, cita.getCitadnipac());
         ps.setInt(2, cita.getCitaiddoc());
         ps.setDate(3, java.sql.Date.valueOf(cita.getFechacita()));
-        ps.setTime(4, java.sql.Time.valueOf(cita.getHoracita()));
+        ps.setString(4, cita.getHoracita().toString());
         setNullableString(ps, 5, cita.getMotivo());
         setNullableString(ps, 6, cita.getDiagnostico());
         setNullableString(ps, 7, cita.getTratamiento());

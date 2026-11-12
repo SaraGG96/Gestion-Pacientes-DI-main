@@ -58,6 +58,11 @@ public class PacientesController implements Initializable {
     private TableColumn<Paciente, String> colmunipac;
 
     boolean pacienteexiste = false;
+    private CitasController citasController;
+
+    public void setCitasController(CitasController citasController) {
+        this.citasController = citasController;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -382,6 +387,10 @@ public class PacientesController implements Initializable {
         nacpac.setValue(paciente.getNacimiento());
         cmbpac.setValue(paciente.getProvincia());
         locpac.setValue(paciente.getMunicipio());
+
+        if (citasController != null) {
+            citasController.cargarDatosPaciente(paciente);
+        }
 
     }
 

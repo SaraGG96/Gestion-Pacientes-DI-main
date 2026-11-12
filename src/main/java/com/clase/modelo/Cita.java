@@ -15,6 +15,8 @@ public class Cita {
     private String diagnostico;
     private String tratamiento;
     private String estadocita;
+    private String doctor;
+    private String especialidad;
 
     // Constructor vacío
     public Cita() {
@@ -109,5 +111,21 @@ public class Cita {
 
     public void setEstadocita(String estadocita) {
         this.estadocita = estadocita;
+    }
+
+    public String getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
     }
 }

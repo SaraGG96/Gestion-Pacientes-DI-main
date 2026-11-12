@@ -68,7 +68,7 @@
          <tabs>
             <Tab text="Pacientes">
                <content>
-                  <fx:include source="pacientes.fxml" />
+                  <fx:include fx:id="pacientesView" source="pacientes.fxml" />
                </content>
             </Tab>
             <Tab text="Doctores">
@@ -78,7 +78,7 @@
             </Tab>
             <Tab text="Citas">
                <content>
-                  <fx:include source="citas.fxml" />
+                  <fx:include fx:id="citasView" source="citas.fxml" />
                </content>
             </Tab>
          </tabs>

@@ -32,7 +32,7 @@ CREATE TABLE `citas` (
   `citadnipac` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `citaiddoc` int NOT NULL,
   `fechacita` date NOT NULL,
-  `horacita` time NOT NULL,
+  `horacita` varchar(8) NOT NULL,
   `motivo` varchar(200) DEFAULT NULL,
   `diagnostico` text,
   `tratamiento` text,

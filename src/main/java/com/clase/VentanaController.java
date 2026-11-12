@@ -11,6 +11,16 @@ import javafx.stage.Stage;
 
 public class VentanaController {
 
+    @FXML
+    private PacientesController pacientesViewController;
+    @FXML
+    private CitasController citasViewController;
+
+    @FXML
+    private void initialize() {
+        pacientesViewController.setCitasController(citasViewController);
+    }
+
     @FXML 
     private void salirApp() {
         Platform.exit();
