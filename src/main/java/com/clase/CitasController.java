@@ -2,7 +2,6 @@
 package com.clase;
 
 import com.clase.modelo.Cita;
-import com.clase.modelo.Paciente;
 import com.clase.persistencia.CitaDAOMySQL;
 import java.net.URL;
 import java.time.LocalDate;
@@ -89,9 +88,14 @@ public class CitasController implements Initializable {
                 });
     }
 
-    public void cargarDatosPaciente(Paciente paciente) {
+    public void cargarDatosPaciente(Object paciente) {
         if (paciente != null) {
-            dniPaciente.setText(paciente.getDni());
+            try {
+                dniPaciente.setText(String.valueOf(
+                        paciente.getClass().getMethod("getDni").invoke(paciente)));
+            } catch (ReflectiveOperationException ex) {
+                throw new IllegalArgumentException("No se pudo obtener el DNI del paciente.", ex);
+            }
         }
     }
 

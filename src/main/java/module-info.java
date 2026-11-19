@@ -1,3 +1,4 @@
+@SuppressWarnings("module")
 module com.clase {
     requires transitive javafx.graphics;
     requires javafx.controls;
