@@ -33,11 +33,14 @@ public class VentanaController {
     @FXML
     private PacientesController pacientesViewController;
     @FXML
+    private DoctoresController doctoresViewController;
+    @FXML
     private CitasController citasViewController;
 
     @FXML
     private void initialize() {
         pacientesViewController.setCitasController(citasViewController);
+        doctoresViewController.setCitasController(citasViewController);
     }
 
     @FXML 

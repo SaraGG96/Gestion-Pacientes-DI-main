@@ -73,7 +73,7 @@
             </Tab>
             <Tab text="Doctores">
                <content>
-                  <fx:include source="doctores.fxml" />
+                  <fx:include fx:id="doctoresView" source="doctores.fxml" />
                </content>
             </Tab>
             <Tab text="Citas">

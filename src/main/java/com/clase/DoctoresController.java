@@ -35,6 +35,11 @@ public class DoctoresController implements Initializable {
     private TableColumn<Doctor, String> coliddoc, colapeldoc, colnomedoc, colmovildoc, colespedoc;
 
     boolean doctorexiste = false;
+    private CitasController citasController;
+
+    public void setCitasController(CitasController citasController) {
+        this.citasController = citasController;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -259,6 +264,10 @@ public class DoctoresController implements Initializable {
         locpac.setValue(doctor.getLocpac());
         colegiadodoc.setSelected(doctor.isColegiado());
         nocolegiadodoc.setSelected(!doctor.isColegiado());
+
+        if (citasController != null) {
+            citasController.cargarDatosDoctor(doctor);
+        }
     }
 
     @FXML
