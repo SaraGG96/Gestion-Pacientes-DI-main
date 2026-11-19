@@ -2,7 +2,6 @@
 package com.clase;
 
 import com.clase.modelo.Cita;
-import com.clase.modelo.Doctor;
 import com.clase.persistencia.CitaDAOMySQL;
 import java.net.URL;
 import java.time.LocalDate;
@@ -100,33 +99,14 @@ public class CitasController implements Initializable {
         }
     }
 
-    public void cargarDatosDoctor(Doctor doctor) {
+    public void cargarDatosDoctor(Object doctor) {
         if (doctor != null) {
-            idDoctor.setText(doctor.getIddoc());
-        }
-    }
-
-    @FXML
-    private void buscarCita() {
-        try {
-            Cita cita = dao.buscarCita(parseRequiredInt(idCita.getText(), "el ID de la cita"));
-            if (cita == null) {
-                mostrarAviso("No se encontró ninguna cita con ese ID.");
-                return;
+            try {
+                idDoctor.setText(String.valueOf(
+                        doctor.getClass().getMethod("getIddoc").invoke(doctor)));
+            } catch (ReflectiveOperationException ex) {
+                throw new IllegalArgumentException("No se pudo obtener el ID del doctor.", ex);
             }
-            citaEnEdicion = true;
-            idDoctor.setText(String.valueOf(cita.getCitaiddoc()));
-            dniPaciente.setText(cita.getCitadnipac());
-            fecha.setValue(cita.getFechacita());
-            hora.setValue(cita.getHoracita());
-            motivo.setText(cita.getMotivo());
-            diagnostico.setText(cita.getDiagnostico());
-            tratamiento.setText(cita.getTratamiento());
-            seleccionarEstado(cita.getEstadocita());
-        } catch (IllegalArgumentException ex) {
-            mostrarAviso(ex.getMessage());
-        } catch (IllegalStateException ex) {
-            mostrarError(ex.getMessage());
         }
     }
 

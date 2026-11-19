@@ -31,9 +31,9 @@ CREATE TABLE `pacientes` (
   `dnipac` varchar(9) NOT NULL,
   `apelpac` varchar(128) NOT NULL,
   `nompac` varchar(128) NOT NULL,
-  `nacimientopac` date NOT NULL,
+  `nacpac` date NOT NULL,
   `movilpac` varchar(10) NOT NULL,
-  `mailpac` varchar(128) DEFAULT NULL,
+  `emailpac` varchar(128) DEFAULT NULL,
   `dirpac` varchar(256) NOT NULL,
   `propac` varchar(64) NOT NULL,
   `munipac` varchar(64) NOT NULL
@@ -43,7 +43,7 @@ CREATE TABLE `pacientes` (
 -- Volcado de datos para la tabla `pacientes`
 --
 
-INSERT INTO `pacientes` (`dnipac`, `apelpac`, `nompac`, `nacimientopac`, `movilpac`, `mailpac`, `dirpac`, `propac`, `munipac`) VALUES
+INSERT INTO `pacientes` (`dnipac`, `apelpac`, `nompac`, `nacpac`, `movilpac`, `emailpac`, `dirpac`, `propac`, `munipac`) VALUES
 ('12345678Z', 'Peresa', 'Ratoni', '2026-10-15', '772664553', 'ratoni@gmail.com', 'Un queso ', 'Albacete', 'Albatana');
 
 --
