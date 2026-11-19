@@ -102,6 +102,13 @@ public class PacientesController implements Initializable {
                 }
             });
         }
+
+        emailpac.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                validarEmail();
+            }
+        });
+
         cargarPacientes();
 
         tablaPacientes.getSelectionModel()
@@ -274,10 +281,20 @@ public class PacientesController implements Initializable {
         locpac.getSelectionModel().clearSelection();
         dnipac.setStyle("");
         tlfopac.setStyle("");
+        emailpac.setStyle("");
     }
 
     @FXML
     private void guardarPaciente() {
+        if (!validarEmail()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Datos no válidos");
+            alert.setHeaderText(null);
+            alert.setContentText("Introduce una dirección de email válida.");
+            alert.showAndWait();
+            return;
+        }
+
         if (nacpac.getValue() == null) {
             System.out.println("Debes introducir la fecha de nacimiento");
             return;
@@ -416,6 +433,23 @@ public class PacientesController implements Initializable {
         cmbpac.setValue(paciente.getProvincia());
         locpac.setValue(paciente.getMunicipio());
 
+    }
+
+    private boolean validarEmail() {
+        String email = emailpac.getText() == null ? "" : emailpac.getText().trim();
+
+        // El email es opcional, por lo que un campo vacío es válido.
+        if (email.isEmpty()) {
+            emailpac.setStyle("");
+            return true;
+        }
+
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        boolean emailValido = email.matches(regex);
+        emailpac.setStyle(emailValido
+                ? "-fx-border-color: green; -fx-border-width: 1.5px;"
+                : "-fx-border-color: red; -fx-border-width: 1.5px;");
+        return emailValido;
     }
 
 }

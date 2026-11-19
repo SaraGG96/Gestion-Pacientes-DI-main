@@ -62,6 +62,13 @@ public class DoctoresController implements Initializable {
                 comprobarTelefono();
             }
         });
+
+        emaildoc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                validarEmail();
+            }
+        });
+
         cargarDoctores();
 
         tablaDoctores.getSelectionModel()
@@ -127,12 +134,22 @@ public class DoctoresController implements Initializable {
         colegiadodoc.setSelected(false);
         nocolegiadodoc.setSelected(false);
         tlfodoc.setStyle("");
+        emaildoc.setStyle("");
         doctorexiste = false;
         cargarDoctores();
     }
 
     @FXML
     private void guardarDoctor() {
+        if (!validarEmail()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Datos no válidos");
+            alert.setHeaderText(null);
+            alert.setContentText("Introduce una dirección de email válida.");
+            alert.showAndWait();
+            return;
+        }
+
         String id = iddoc.getText();
         String apellidos = apeldoc.getText();
         String nombre = nomedoc.getText();
@@ -262,6 +279,23 @@ public class DoctoresController implements Initializable {
 
         doctorexiste = false;
         tablaDoctores.getItems().setAll(doctoresEncontrados);
+    }
+
+    private boolean validarEmail() {
+        String email = emaildoc.getText() == null ? "" : emaildoc.getText().trim();
+
+        // El email es opcional, por lo que un campo vacío es válido.
+        if (email.isEmpty()) {
+            emaildoc.setStyle("");
+            return true;
+        }
+
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        boolean emailValido = email.matches(regex);
+        emaildoc.setStyle(emailValido
+                ? "-fx-border-color: green; -fx-border-width: 1.5px;"
+                : "-fx-border-color: red; -fx-border-width: 1.5px;");
+        return emailValido;
     }
 
     @FXML 

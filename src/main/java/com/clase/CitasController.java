@@ -217,7 +217,12 @@ public class CitasController implements Initializable {
 
     @FXML
     private void cargarCitas() {
-        tablaPacientes.getItems().setAll(dao.cargarCitas());
+        try {
+            tablaPacientes.getItems().setAll(dao.cargarCitas());
+        } catch (IllegalStateException e) {
+            tablaPacientes.getItems().clear();
+            System.err.println("ERROR al cargar las citas: " + e.getMessage());
+        }
     }
 
     private void mostrarCita(Cita cita) {
