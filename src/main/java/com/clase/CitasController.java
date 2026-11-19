@@ -58,6 +58,7 @@ public class CitasController implements Initializable {
 
     private final CitaDAOMySQL dao = new CitaDAOMySQL();
     private boolean citaEnEdicion;
+    private String dniPacienteSeleccionado;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -88,15 +89,17 @@ public class CitasController implements Initializable {
                 });
     }
 
-    public void cargarDatosPaciente(Object paciente) {
-        if (paciente != null) {
-            try {
-                dniPaciente.setText(String.valueOf(
-                        paciente.getClass().getMethod("getDni").invoke(paciente)));
-            } catch (ReflectiveOperationException ex) {
-                throw new IllegalArgumentException("No se pudo obtener el DNI del paciente.", ex);
-            }
+    public void cargarDatosPaciente(com.clase.modelo.Paciente paciente) {
+        if (paciente == null) {
+            dniPacienteSeleccionado = null;
+            dniPaciente.clear();
+            cargarCitas();
+            return;
         }
+
+        dniPacienteSeleccionado = paciente.getDni();
+        dniPaciente.setText(dniPacienteSeleccionado);
+        cargarCitasPaciente(dniPacienteSeleccionado);
     }
 
     public void cargarDatosDoctor(Object doctor) {
@@ -122,8 +125,9 @@ public class CitasController implements Initializable {
                 dao.modificarCita(cita);
                 mostrarAviso("Cita modificada correctamente.");
             }
-            cargarCitas();
-            limpiarCampos();
+            cargarCitasPacienteActual();
+            limpiarFormulario();
+            restaurarPacienteSeleccionado();
         } catch (IllegalArgumentException ex) {
             mostrarAviso(ex.getMessage());
         } catch (IllegalStateException ex) {
@@ -137,8 +141,9 @@ public class CitasController implements Initializable {
             int id = parseRequiredInt(idCita.getText(), "el ID de la cita");
             dao.eliminarCita(id);
             mostrarAviso("Cita eliminada correctamente.");
-            limpiarCampos();
-            cargarCitas();
+            limpiarFormulario();
+            cargarCitasPacienteActual();
+            restaurarPacienteSeleccionado();
         } catch (IllegalArgumentException ex) {
             mostrarAviso(ex.getMessage());
         } catch (IllegalStateException ex) {
@@ -148,6 +153,12 @@ public class CitasController implements Initializable {
 
     @FXML
     private void limpiarCampos() {
+        dniPacienteSeleccionado = null;
+        limpiarFormulario();
+        cargarCitas();
+    }
+
+    private void limpiarFormulario() {
         idCita.clear();
         idDoctor.clear();
         dniPaciente.clear();
@@ -160,6 +171,12 @@ public class CitasController implements Initializable {
         citaEnEdicion = false;
         if (tablaPacientes != null) {
             tablaPacientes.getSelectionModel().clearSelection();
+        }
+    }
+
+    private void restaurarPacienteSeleccionado() {
+        if (dniPacienteSeleccionado != null) {
+            dniPaciente.setText(dniPacienteSeleccionado);
         }
     }
 
@@ -213,6 +230,23 @@ public class CitasController implements Initializable {
         } catch (IllegalStateException e) {
             tablaPacientes.getItems().clear();
             System.err.println("ERROR al cargar las citas: " + e.getMessage());
+        }
+    }
+
+    private void cargarCitasPaciente(String dniPaciente) {
+        try {
+            tablaPacientes.getItems().setAll(dao.cargarCitasPaciente(dniPaciente));
+        } catch (IllegalStateException e) {
+            tablaPacientes.getItems().clear();
+            System.err.println("ERROR al cargar las citas del paciente: " + e.getMessage());
+        }
+    }
+
+    private void cargarCitasPacienteActual() {
+        if (dniPacienteSeleccionado == null || dniPacienteSeleccionado.trim().isEmpty()) {
+            cargarCitas();
+        } else {
+            cargarCitasPaciente(dniPacienteSeleccionado);
         }
     }
 

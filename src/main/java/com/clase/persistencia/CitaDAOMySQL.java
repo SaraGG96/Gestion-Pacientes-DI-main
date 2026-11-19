@@ -18,7 +18,6 @@ public class CitaDAOMySQL {
                 + "FROM citas c LEFT JOIN doctores d ON c.citaiddoc = d.iddoc "
                 + "ORDER BY c.fechacita, c.horacita";
         List<Cita> citas = new ArrayList<>();
-
         try (Connection conexion = ConexionMySQL.getConexion();
              PreparedStatement ps = conexion.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -27,6 +26,30 @@ public class CitaDAOMySQL {
             }
         } catch (SQLException e) {
             throw new IllegalStateException("No se pudieron cargar las citas: " + e.getMessage(), e);
+        }
+
+        return citas;
+    }
+
+    public List<Cita> cargarCitasPaciente(String dniPaciente) {
+        String sql = "SELECT c.idcita, c.citadnipac, c.citaiddoc, c.fechacita, c.horacita, "
+                + "c.motivo, c.diagnostico, c.tratamiento, c.estadocita, "
+                + "CONCAT(d.nomdoc, ' ', d.apeldoc) AS doctor, d.espedoc AS especialidad "
+                + "FROM citas c LEFT JOIN doctores d ON c.citaiddoc = d.iddoc "
+                + "WHERE c.citadnipac = ? "
+                + "ORDER BY c.fechacita, c.horacita";
+        List<Cita> citas = new ArrayList<>();
+
+        try (Connection conexion = ConexionMySQL.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, dniPaciente);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    citas.add(crearCita(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("No se pudieron cargar las citas del paciente: " + e.getMessage(), e);
         }
 
         return citas;

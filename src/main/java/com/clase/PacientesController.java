@@ -117,6 +117,8 @@ public class PacientesController implements Initializable {
 
                     if (nuevo != null) {
                         cargarPaciente();
+                    } else if (citasController != null) {
+                        citasController.cargarDatosPaciente(null);
                     }
                 });
 
@@ -432,6 +434,10 @@ public class PacientesController implements Initializable {
         nacpac.setValue(paciente.getNacimiento());
         cmbpac.setValue(paciente.getProvincia());
         locpac.setValue(paciente.getMunicipio());
+
+        if (citasController != null) {
+            citasController.cargarDatosPaciente(paciente);
+        }
 
     }
 
