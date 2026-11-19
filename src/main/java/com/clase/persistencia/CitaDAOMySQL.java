@@ -14,7 +14,7 @@ public class CitaDAOMySQL {
     public List<Cita> cargarCitas() {
         String sql = "SELECT c.idcita, c.citadnipac, c.citaiddoc, c.fechacita, c.horacita, "
                 + "c.motivo, c.diagnostico, c.tratamiento, c.estadocita, "
-                + "CONCAT(d.nomedoc, ' ', d.apeldoc) AS doctor, d.espedoc AS especialidad "
+                + "CONCAT(d.nomdoc, ' ', d.apeldoc) AS doctor, d.espedoc AS especialidad "
                 + "FROM citas c LEFT JOIN doctores d ON c.citaiddoc = d.iddoc "
                 + "ORDER BY c.fechacita, c.horacita";
         List<Cita> citas = new ArrayList<>();

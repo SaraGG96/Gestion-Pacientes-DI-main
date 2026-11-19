@@ -130,6 +130,15 @@
     -fx-border-width: 2px;
 }
 
+.readonly-field {
+    -fx-background-color: #fff2a8;
+    -fx-border-color: #d5b75a;
+}
+
+.readonly-field:focused {
+    -fx-border-color: #d5b75a;
+}
+
 .table-view {
     -fx-background-color: #fffafd;
     -fx-border-color: #ead5dc;

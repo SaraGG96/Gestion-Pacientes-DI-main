@@ -13,12 +13,12 @@ public class DoctorDAOMySQL implements DoctorDAO {
     @Override
     public void guardarDoctor(Doctor doctor) {
         String sql = "INSERT INTO doctores "
-                + "(nomedoc, apeldoc, coledoc, movildoc, emaildoc, espedoc) "
+                + "(nomdoc, apeldoc, coledoc, movildoc, emaildoc, espedoc) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conexion = ConexionMySQL.getConexion();
                 PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setString(1, doctor.getNomedoc());
+            ps.setString(1, doctor.getNomdoc());
             ps.setString(2, doctor.getApeldoc());
             ps.setBoolean(3, doctor.isColegiado());
             ps.setString(4, doctor.getTlfodoc());
@@ -34,8 +34,8 @@ public class DoctorDAOMySQL implements DoctorDAO {
     @Override
     public List<Doctor> cargarDoctores() {
         List<Doctor> doctores = new ArrayList<>();
-        String sql = "SELECT iddoc, apeldoc, nomedoc, movildoc, emaildoc, espedoc, coledoc "
-                + "FROM doctores ORDER BY apeldoc, nomedoc";
+        String sql = "SELECT iddoc, apeldoc, nomdoc, movildoc, emaildoc, espedoc, coledoc "
+                + "FROM doctores ORDER BY apeldoc, nomdoc";
 
         try (Connection conexion = ConexionMySQL.getConexion();
                 PreparedStatement ps = conexion.prepareStatement(sql);
@@ -65,7 +65,7 @@ public class DoctorDAOMySQL implements DoctorDAO {
 
     @Override
     public Doctor buscarDoctor(String iddoc) {
-        String sql = "SELECT iddoc, apeldoc, nomedoc, movildoc, emaildoc, espedoc, coledoc "
+        String sql = "SELECT iddoc, apeldoc, nomdoc, movildoc, emaildoc, espedoc, coledoc "
                 + "FROM doctores WHERE iddoc = ?";
 
         try (Connection conexion = ConexionMySQL.getConexion();
@@ -84,12 +84,12 @@ public class DoctorDAOMySQL implements DoctorDAO {
 
     @Override
     public void modificarDoctor(String iddoc, Doctor doctor) {
-        String sql = "UPDATE doctores SET nomedoc = ?, apeldoc = ?, coledoc = ?, "
+        String sql = "UPDATE doctores SET nomdoc = ?, apeldoc = ?, coledoc = ?, "
                 + "movildoc = ?, emaildoc = ?, espedoc = ? WHERE iddoc = ?";
 
         try (Connection conexion = ConexionMySQL.getConexion();
                 PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setString(1, doctor.getNomedoc());
+            ps.setString(1, doctor.getNomdoc());
             ps.setString(2, doctor.getApeldoc());
             ps.setBoolean(3, doctor.isColegiado());
             ps.setString(4, doctor.getTlfodoc());
@@ -107,7 +107,7 @@ public class DoctorDAOMySQL implements DoctorDAO {
         return new Doctor(
                 rs.getString("iddoc"),
                 rs.getString("apeldoc"),
-                rs.getString("nomedoc"),
+                rs.getString("nomdoc"),
                 rs.getString("movildoc"),
                 rs.getString("emaildoc"),
                 rs.getString("espedoc"),

@@ -4,18 +4,18 @@ public class Doctor {
 
     private String iddoc;
     private String apeldoc;
-    private String nomedoc;
+    private String nomdoc;
     private String tlfodoc;
     private String emaildoc;
     private String locpac;
     private boolean colegiado;
 
-    public Doctor(String iddoc, String apeldoc, String nomedoc,
+    public Doctor(String iddoc, String apeldoc, String nomdoc,
             String tlfodoc, String emaildoc, String locpac,
             boolean colegiado) {
         this.iddoc = iddoc;
         this.apeldoc = apeldoc;
-        this.nomedoc = nomedoc;
+        this.nomdoc = nomdoc;
         this.tlfodoc = tlfodoc;
         this.emaildoc = emaildoc;
         this.locpac = locpac;
@@ -38,12 +38,12 @@ public class Doctor {
         this.apeldoc = apeldoc;
     }
 
-    public String getNomedoc() {
-        return nomedoc;
+    public String getNomdoc() {
+        return nomdoc;
     }
 
-    public void setNomedoc(String nomedoc) {
-        this.nomedoc = nomedoc;
+    public void setNomdoc(String nomdoc) {
+        this.nomdoc = nomdoc;
     }
 
     public String getTlfodoc() {

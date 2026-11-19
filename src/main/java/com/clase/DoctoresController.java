@@ -22,7 +22,7 @@ import javafx.scene.control.TextField;
 public class DoctoresController implements Initializable {
 
     @FXML
-    private TextField iddoc, apeldoc, nomedoc, tlfodoc, emaildoc;
+    private TextField iddoc, apeldoc, nomdoc, tlfodoc, emaildoc;
     @FXML
     private Button btnbuscardoc, btnguardardoc, btndeldoc, btnreset;
     @FXML
@@ -32,7 +32,7 @@ public class DoctoresController implements Initializable {
     @FXML
     private RadioButton colegiadodoc, nocolegiadodoc;
     @FXML
-    private TableColumn<Doctor, String> coliddoc, colapeldoc, colnomedoc, colmovildoc, colespedoc;
+    private TableColumn<Doctor, String> coliddoc, colapeldoc, colnomdoc, colmovildoc, colespedoc;
 
     boolean doctorexiste = false;
     private CitasController citasController;
@@ -45,14 +45,14 @@ public class DoctoresController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         coliddoc.setCellValueFactory(new PropertyValueFactory<>("iddoc"));
         colapeldoc.setCellValueFactory(new PropertyValueFactory<>("apeldoc"));
-        colnomedoc.setCellValueFactory(new PropertyValueFactory<>("nomedoc"));
+        colnomdoc.setCellValueFactory(new PropertyValueFactory<>("nomdoc"));
         colmovildoc.setCellValueFactory(new PropertyValueFactory<>("tlfodoc"));
         colespedoc.setCellValueFactory(new PropertyValueFactory<>("locpac"));
         cargarEspecialidades();
 
-        nomedoc.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue && nomedoc.getText() != null) {
-                nomedoc.setText(formatearNombrePropio(nomedoc.getText()));
+        nomdoc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue && nomdoc.getText() != null) {
+                nomdoc.setText(formatearNombrePropio(nomdoc.getText()));
             }
         });
 
@@ -132,7 +132,7 @@ public class DoctoresController implements Initializable {
     private void resetCampos() {
         iddoc.clear();
         apeldoc.clear();
-        nomedoc.clear();
+        nomdoc.clear();
         tlfodoc.clear();
         emaildoc.clear();
         locpac.getSelectionModel().clearSelection();
@@ -157,7 +157,7 @@ public class DoctoresController implements Initializable {
 
         String id = iddoc.getText();
         String apellidos = apeldoc.getText();
-        String nombre = nomedoc.getText();
+        String nombre = nomdoc.getText();
         String movil = tlfodoc.getText();
         String email = emaildoc.getText();
         String especialidad = locpac.getValue();
@@ -258,7 +258,7 @@ public class DoctoresController implements Initializable {
 
         iddoc.setText(doctor.getIddoc());
         apeldoc.setText(doctor.getApeldoc());
-        nomedoc.setText(doctor.getNomedoc());
+        nomdoc.setText(doctor.getNomdoc());
         tlfodoc.setText(doctor.getTlfodoc());
         emaildoc.setText(doctor.getEmaildoc());
         locpac.setValue(doctor.getLocpac());

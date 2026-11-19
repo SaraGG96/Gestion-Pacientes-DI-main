@@ -34,7 +34,7 @@
                         <Insets left="15.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="iddoc" editable="false">
+                  <TextField fx:id="iddoc" editable="false" styleClass="readonly-field">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -54,7 +54,7 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="nomedoc" prefHeight="25.0" prefWidth="257.0">
+                  <TextField fx:id="nomdoc" prefHeight="25.0" prefWidth="257.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -175,7 +175,7 @@
                <columns>
                   <TableColumn fx:id="coliddoc" prefWidth="120.0" style="-fx-alignment: CENTER;" text="DNI" />
                   <TableColumn fx:id="colapeldoc" prefWidth="255.0" text="APELLIDOS" />
-                  <TableColumn fx:id="colnomedoc" prefWidth="230.0" text="NOMBRE" />
+                  <TableColumn fx:id="colnomdoc" prefWidth="230.0" text="NOMBRE" />
                   <TableColumn fx:id="colmovildoc" prefWidth="252.0" style="-fx-alignment: CENTER;" text="MOVIL" />
                   <TableColumn fx:id="colespedoc" prefWidth="250.0" text="ESPECIALIDAD" />
                </columns>

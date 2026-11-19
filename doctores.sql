@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `doctores` (
   `iddoc` int NOT NULL,
-  `nomedoc` varchar(128) NOT NULL,
+  `nomdoc` varchar(128) NOT NULL,
   `apeldoc` varchar(128) NOT NULL,
   `coledoc` tinyint(1) NOT NULL,
   `movildoc` varchar(16) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `doctores` (
 -- Volcado de datos para la tabla `doctores`
 --
 
-INSERT INTO `doctores` (`iddoc`, `nomedoc`, `apeldoc`, `coledoc`, `movildoc`, `emaildoc`, `espedoc`) VALUES
+INSERT INTO `doctores` (`iddoc`, `nomdoc`, `apeldoc`, `coledoc`, `movildoc`, `emaildoc`, `espedoc`) VALUES
 (1, 'Doctorez', 'Doctorez', 1, '675766453', 'doctor@doctor.doc', 'Alergología');
 
 --

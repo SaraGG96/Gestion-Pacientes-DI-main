@@ -26,11 +26,11 @@
             <HBox alignment="CENTER" spacing="8.0">
                <children>
                   <Label text="ID Cita:" />
-                  <TextField fx:id="idCita" editable="false" prefWidth="100.0" styleClass="lookup-field" />
+                  <TextField fx:id="idCita" editable="false" prefWidth="100.0" styleClass="readonly-field" />
                   <Label text="ID Doctor:" />
-                  <TextField fx:id="idDoctor" editable="false" prefWidth="100.0" styleClass="lookup-field" />
+                  <TextField fx:id="idDoctor" editable="false" prefWidth="100.0" styleClass="readonly-field" />
                   <Label text="DNI Paciente:" />
-                  <TextField fx:id="dniPaciente" editable="false" prefWidth="130.0" styleClass="lookup-field" />
+                  <TextField fx:id="dniPaciente" editable="false" prefWidth="130.0" styleClass="readonly-field" />
                   <Button mnemonicParsing="false" onAction="#limpiarCampos">
                      <graphic>
                         <ImageView fx:id="limpiarCita" fitHeight="27.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
@@ -75,7 +75,6 @@
                <children>
                   <Button onAction="#guardarCita" text="Guardar" />
                   <Button onAction="#eliminarCita" text="Eliminar" />
-                  <Button onAction="#limpiarCampos" text="Limpiar" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="2.0" />
